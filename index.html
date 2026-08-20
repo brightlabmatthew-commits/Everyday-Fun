@@ -377,6 +377,26 @@ async function loadLessons(){
 const MONTH_ORDER = ["January","February","March","April","May","June","July","August","September","October","November","December","Other"];
 function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-'); }
 
+const BG_LAYER_CLASSES = [
+  'doodles','bubble-layer','steam-layer','confetti-layer','blobs',
+  'twinkles','floaters','stars','map-layer','crayon-layer','comic-layer',
+  'rays','wave','wave1','wave2','road-line'
+];
+
+function freezeThumb(iframe){
+  try{
+    const doc = iframe.contentDocument;
+    if(!doc || !doc.head) return;
+    const style = doc.createElement('style');
+    style.textContent = `
+      nav{ display:none !important; }
+      *, *::before, *::after{ animation:none !important; transition:none !important; }
+      ${BG_LAYER_CLASSES.map(c=>'.'+c).join(', ')}{ display:none !important; }
+    `;
+    doc.head.appendChild(style);
+  } catch(e){ /* cross-origin fallback: leave the live preview as-is */ }
+}
+
 function render(lessons){
   mainEl.innerHTML = '';
 
@@ -444,6 +464,8 @@ function render(lessons){
           <span class="name">${l.name}</span>
           <span class="callnum">${l.path}</span>
         `;
+        const thumbFrame = a.querySelector('iframe');
+        thumbFrame.addEventListener('load', ()=>freezeThumb(thumbFrame));
         grid.appendChild(a);
       });
       section.appendChild(grid);
