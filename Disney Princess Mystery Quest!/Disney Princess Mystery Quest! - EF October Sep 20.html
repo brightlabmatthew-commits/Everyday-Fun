@@ -64,11 +64,7 @@ h1, h2, h3 { margin: 0 0 10px; }
 .card h2 { color: var(--gold); }
 .steps-text { text-align: left; font-size: 17px; line-height: 1.6; }
 .steps-text b { color: var(--pink); }
-.setup-note {
-  margin-top: 14px; background: rgba(232,184,75,0.12); border: 2px dashed var(--gold);
-  border-radius: 12px; padding: 12px 16px; text-align: left; font-size: 14px;
-}
-.setup-note code { background: rgba(0,0,0,0.3); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+
 
 /* ---------- Princess (storybook) slides ---------- */
 .page-counter { color: var(--gold); font-weight: bold; letter-spacing: 1px; margin-bottom: 12px; }
@@ -92,7 +88,16 @@ h1, h2, h3 { margin: 0 0 10px; }
 .upload-hint { font-size: 12px; opacity: 0.7; padding: 0 8px; }
 .upload-box img { width: 100%; height: 100%; object-fit: contain; }
 .upload-box audio { width: 100%; max-width: 150px; }
-.audio-box { width: 230px; height: 60px; }
+.lock-overlay {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; font-size: 34px; cursor: pointer; background: rgba(74,45,117,0.55); color: var(--cream);
+  text-align: center; padding: 10px;
+}
+.lock-overlay small { font-size: 12px; font-weight: bold; max-width: 130px; }
+.lock-overlay:hover { background: rgba(74,45,117,0.75); }
+.audio-box .lock-overlay { position: static; height: 100%; background: transparent; font-size: 22px; }
+.audio-box .lock-overlay:hover { background: rgba(255,255,255,0.05); }
+.audio-box { width: 230px; height: 76px; }
 .audio-controls { margin-top: 8px; text-align: left; font-size: 12px; width: 230px; }
 .chorus-label { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; flex-wrap: wrap; }
 .chorus-time-input {
@@ -229,12 +234,9 @@ h1, h2, h3 { margin: 0 0 10px; }
       <h2>Instructions</h2>
       <div class="steps-text">
         <p>Let's go on a <b>princess guessing quest</b>! &#128081;</p>
-        <p>1. Look at the clues for each princess &mdash; a face, a song, or a bonus clue.</p>
-        <p>2. Take a guess together as a class.</p>
-        <p>3. Tap <b>"Reveal the Princess!"</b> to check the answer and talk about it.</p>
-      </div>
-      <div class="setup-note">
-        <b>Teacher setup:</b> Place your approved images and songs in the <code>princess-media</code> folder next to this HTML file, inside each princess's subfolder, named <code>face</code>, <code>song</code>, and <code>bonus</code> (e.g. <code>princess-media/moana/face.jpg</code>). They'll load automatically every time you open this file &mdash; no re-uploading needed. For songs, type in when the chorus starts (like 1:05) so "Play Chorus" jumps right to it; there's also a "Play Full Song" button just in case.
+        <p>1. Tap a &#128274; locked clue to reveal it &mdash; a face, a song, or a bonus clue.</p>
+        <p>2. Take a guess together as a class before revealing more clues.</p>
+        <p>3. Tap <b>"Reveal the Princess!"</b> only once you're ready to check the answer.</p>
       </div>
     </div>
   </section>
@@ -252,13 +254,18 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="moana-face">
             <img data-media-img="moana-face" data-basepath="princess-media/moana/face" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="moana-face">No image found<br><small>princess-media/moana/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="moana-face" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="moana-song">
             <span class="upload-hint" data-missing-hint="moana-song">No song found<br><small>princess-media/moana/song.mp3</small></span>
-            <span class="found-hint" data-found-hint="moana-song" style="display:none">&#127925; Song loaded</span>
+            <div class="lock-overlay" data-lock-overlay="moana-song" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
           <div class="audio-controls" data-audio-controls="moana-song" style="display:none">
             <label class="chorus-label">Chorus:
@@ -277,6 +284,9 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="moana-bonus">
             <img data-media-img="moana-bonus" data-basepath="princess-media/moana/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="moana-bonus">No image found<br><small>princess-media/moana/bonus.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="moana-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div></div>
       <button class="reveal-btn" data-reveal>&#128142; Reveal the Princess!</button>
@@ -300,13 +310,18 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="snow-white-face">
             <img data-media-img="snow-white-face" data-basepath="princess-media/snowwhite/face" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="snow-white-face">No image found<br><small>princess-media/snowwhite/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="snow-white-face" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="snow-white-song">
             <span class="upload-hint" data-missing-hint="snow-white-song">No song found<br><small>princess-media/snowwhite/song.mp3</small></span>
-            <span class="found-hint" data-found-hint="snow-white-song" style="display:none">&#127925; Song loaded</span>
+            <div class="lock-overlay" data-lock-overlay="snow-white-song" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
           <div class="audio-controls" data-audio-controls="snow-white-song" style="display:none">
             <label class="chorus-label">Chorus:
@@ -325,6 +340,9 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="snow-white-bonus">
             <img data-media-img="snow-white-bonus" data-basepath="princess-media/snowwhite/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="snow-white-bonus">No image found<br><small>princess-media/snowwhite/bonus.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="snow-white-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div></div>
       <button class="reveal-btn" data-reveal>&#128142; Reveal the Princess!</button>
@@ -348,13 +366,18 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="cinderella-face">
             <img data-media-img="cinderella-face" data-basepath="princess-media/cinderella/face" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="cinderella-face">No image found<br><small>princess-media/cinderella/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="cinderella-face" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="cinderella-song">
             <span class="upload-hint" data-missing-hint="cinderella-song">No song found<br><small>princess-media/cinderella/song.mp3</small></span>
-            <span class="found-hint" data-found-hint="cinderella-song" style="display:none">&#127925; Song loaded</span>
+            <div class="lock-overlay" data-lock-overlay="cinderella-song" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
           <div class="audio-controls" data-audio-controls="cinderella-song" style="display:none">
             <label class="chorus-label">Chorus:
@@ -373,6 +396,9 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="cinderella-bonus">
             <img data-media-img="cinderella-bonus" data-basepath="princess-media/cinderella/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="cinderella-bonus">No image found<br><small>princess-media/cinderella/bonus.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="cinderella-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div></div>
       <button class="reveal-btn" data-reveal>&#128142; Reveal the Princess!</button>
@@ -396,13 +422,18 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="belle-face">
             <img data-media-img="belle-face" data-basepath="princess-media/belle/face" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="belle-face">No image found<br><small>princess-media/belle/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="belle-face" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="belle-song">
             <span class="upload-hint" data-missing-hint="belle-song">No song found<br><small>princess-media/belle/song.mp3</small></span>
-            <span class="found-hint" data-found-hint="belle-song" style="display:none">&#127925; Song loaded</span>
+            <div class="lock-overlay" data-lock-overlay="belle-song" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
           <div class="audio-controls" data-audio-controls="belle-song" style="display:none">
             <label class="chorus-label">Chorus:
@@ -421,6 +452,9 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="belle-bonus">
             <img data-media-img="belle-bonus" data-basepath="princess-media/belle/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="belle-bonus">No image found<br><small>princess-media/belle/bonus.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="belle-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div></div>
       <button class="reveal-btn" data-reveal>&#128142; Reveal the Princess!</button>
@@ -444,13 +478,18 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="ariel-face">
             <img data-media-img="ariel-face" data-basepath="princess-media/ariel/face" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="ariel-face">No image found<br><small>princess-media/ariel/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="ariel-face" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="ariel-song">
             <span class="upload-hint" data-missing-hint="ariel-song">No song found<br><small>princess-media/ariel/song.mp3</small></span>
-            <span class="found-hint" data-found-hint="ariel-song" style="display:none">&#127925; Song loaded</span>
+            <div class="lock-overlay" data-lock-overlay="ariel-song" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
           <div class="audio-controls" data-audio-controls="ariel-song" style="display:none">
             <label class="chorus-label">Chorus:
@@ -469,6 +508,9 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="ariel-bonus">
             <img data-media-img="ariel-bonus" data-basepath="princess-media/ariel/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="ariel-bonus">No image found<br><small>princess-media/ariel/bonus.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="ariel-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div></div>
       <button class="reveal-btn" data-reveal>&#128142; Reveal the Princess!</button>
@@ -492,13 +534,18 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="rapunzel-face">
             <img data-media-img="rapunzel-face" data-basepath="princess-media/rapunzel/face" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="rapunzel-face">No image found<br><small>princess-media/rapunzel/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="rapunzel-face" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="rapunzel-song">
             <span class="upload-hint" data-missing-hint="rapunzel-song">No song found<br><small>princess-media/rapunzel/song.mp3</small></span>
-            <span class="found-hint" data-found-hint="rapunzel-song" style="display:none">&#127925; Song loaded</span>
+            <div class="lock-overlay" data-lock-overlay="rapunzel-song" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
           <div class="audio-controls" data-audio-controls="rapunzel-song" style="display:none">
             <label class="chorus-label">Chorus:
@@ -517,6 +564,9 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="rapunzel-bonus">
             <img data-media-img="rapunzel-bonus" data-basepath="princess-media/rapunzel/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="rapunzel-bonus">No image found<br><small>princess-media/rapunzel/bonus.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="rapunzel-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div></div>
       <button class="reveal-btn" data-reveal>&#128142; Reveal the Princess!</button>
@@ -540,13 +590,18 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="elsa-face">
             <img data-media-img="elsa-face" data-basepath="princess-media/elsa/face" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="elsa-face">No image found<br><small>princess-media/elsa/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="elsa-face" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="elsa-song">
             <span class="upload-hint" data-missing-hint="elsa-song">No song found<br><small>princess-media/elsa/song.mp3</small></span>
-            <span class="found-hint" data-found-hint="elsa-song" style="display:none">&#127925; Song loaded</span>
+            <div class="lock-overlay" data-lock-overlay="elsa-song" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
           <div class="audio-controls" data-audio-controls="elsa-song" style="display:none">
             <label class="chorus-label">Chorus:
@@ -565,6 +620,9 @@ h1, h2, h3 { margin: 0 0 10px; }
           <div class="upload-box" data-media-box="elsa-bonus">
             <img data-media-img="elsa-bonus" data-basepath="princess-media/elsa/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="elsa-bonus">No image found<br><small>princess-media/elsa/bonus.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="elsa-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
           </div>
         </div></div>
       <button class="reveal-btn" data-reveal>&#128142; Reveal the Princess!</button>
@@ -1041,11 +1099,14 @@ function parseTimeToSeconds(str) {
   return Number(str) || 0;
 }
 
-// Try each extension in order for an <img>; show it (and hide the "missing" hint) on first success.
+// Try each extension in order for an <img>; once found, show a lock overlay (not the image itself)
+// so the class has to tap to reveal it as a guessing clue, rather than seeing it immediately.
 document.querySelectorAll('[data-media-img]').forEach(function (img) {
+  var slotId = img.getAttribute('data-media-img');
   var base = img.getAttribute('data-basepath');
   var exts = img.getAttribute('data-exts').split(',');
-  var hint = document.querySelector('[data-missing-hint="' + img.getAttribute('data-media-img') + '"]');
+  var hint = document.querySelector('[data-missing-hint="' + slotId + '"]');
+  var lockOverlay = document.querySelector('[data-lock-overlay="' + slotId + '"]');
   var i = 0;
   function tryNext() {
     if (i >= exts.length) { return; } // leave the missing-hint showing
@@ -1054,13 +1115,24 @@ document.querySelectorAll('[data-media-img]').forEach(function (img) {
   }
   img.addEventListener('error', tryNext);
   img.addEventListener('load', function () {
-    img.style.display = 'block';
     if (hint) hint.style.display = 'none';
+    if (lockOverlay) lockOverlay.style.display = 'flex';
   });
   tryNext();
+
+  if (lockOverlay) {
+    function reveal() {
+      if (currentTool !== 'pointer') return;
+      img.style.display = 'block';
+      lockOverlay.style.display = 'none';
+    }
+    lockOverlay.addEventListener('click', reveal);
+    lockOverlay.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') reveal(); });
+  }
 });
 
 // For each audio slot, probe extensions with a throwaway Audio() to find the working file+URL.
+// Once found, show a lock overlay (not the controls) so it stays a real guessing clue.
 document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   var slotId = controls.getAttribute('data-audio-controls');
   var chorusBtn = controls.querySelector('[data-play-chorus]');
@@ -1068,7 +1140,7 @@ document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   var base = chorusBtn.getAttribute('data-basepath');
   var exts = chorusBtn.getAttribute('data-exts').split(',');
   var missingHint = document.querySelector('[data-missing-hint="' + slotId + '"]');
-  var foundHint = document.querySelector('[data-found-hint="' + slotId + '"]');
+  var lockOverlay = document.querySelector('[data-lock-overlay="' + slotId + '"]');
   var startInput = controls.querySelector('[data-chorus-start]');
   var endInput = controls.querySelector('[data-chorus-end]');
   var resolvedUrl = null;
@@ -1096,13 +1168,22 @@ document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
     probe.addEventListener('canplaythrough', function onOk() {
       resolvedUrl = candidate;
       if (missingHint) missingHint.style.display = 'none';
-      if (foundHint) foundHint.style.display = 'inline';
-      controls.style.display = 'block';
+      if (lockOverlay) lockOverlay.style.display = 'flex';
     }, { once: true });
     probe.src = candidate;
     probe.load();
   }
   tryNext();
+
+  if (lockOverlay) {
+    function reveal() {
+      if (currentTool !== 'pointer') return;
+      lockOverlay.style.display = 'none';
+      controls.style.display = 'block';
+    }
+    lockOverlay.addEventListener('click', reveal);
+    lockOverlay.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') reveal(); });
+  }
 
   function stopActive() {
     if (activeAudio) { activeAudio.pause(); activeAudio = null; }
