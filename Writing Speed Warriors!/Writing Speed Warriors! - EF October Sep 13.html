@@ -115,7 +115,8 @@ h1, h2, h3 { margin: 0 0 10px; }
   width: min(620px, 90vw); background: linear-gradient(160deg, #232f52, #141c34); border: 3px solid var(--gold);
   border-radius: 20px; padding: 30px 26px; box-shadow: 0 20px 45px rgba(0,0,0,0.4);
 }
-.challenge-label { color: var(--gold); font-weight: bold; margin-bottom: 18px; }
+.challenge-label { color: var(--gold); font-weight: bold; margin-bottom: 10px; }
+.challenge-picture-clue { font-size: 56px; margin-bottom: 14px; }
 .tile-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 20px; }
 .tile, .blank-input {
   width: 42px; height: 50px; border-radius: 8px; font-size: 22px; font-weight: bold; text-align: center;
@@ -485,150 +486,55 @@ h1, h2, h3 { margin: 0 0 10px; }
 
   
   <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 1 of 15</div>
+    <div class="word-counter">Challenge 1 of 5</div>
     <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="MONKEY"><span class="tile filled">M</span><input class="blank-input" maxlength="1" data-answer="O" autocomplete="off"><input class="blank-input" maxlength="1" data-answer="N" autocomplete="off"><span class="tile filled">K</span><span class="tile filled">E</span><input class="blank-input" maxlength="1" data-answer="Y" autocomplete="off"></div>
+      <p class="challenge-label">Fill in the missing letter!</p>
+      <div class="challenge-picture-clue">🐱</div>
+      <div class="tile-row" data-word="CAT"><span class="tile filled">C</span><input class="blank-input" maxlength="1" data-answer="A" autocomplete="off"><span class="tile filled">T</span></div>
       <button class="check-btn" data-check>Check</button>
       <p class="challenge-feedback" data-feedback></p>
     </div>
   </section>
 
   <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 2 of 15</div>
+    <div class="word-counter">Challenge 2 of 5</div>
     <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="ELEPHANT"><span class="tile filled">E</span><input class="blank-input" maxlength="1" data-answer="L" autocomplete="off"><span class="tile filled">E</span><span class="tile filled">P</span><input class="blank-input" maxlength="1" data-answer="H" autocomplete="off"><span class="tile filled">A</span><span class="tile filled">N</span><input class="blank-input" maxlength="1" data-answer="T" autocomplete="off"></div>
+      <p class="challenge-label">Fill in the missing letter!</p>
+      <div class="challenge-picture-clue">🐶</div>
+      <div class="tile-row" data-word="DOG"><span class="tile filled">D</span><input class="blank-input" maxlength="1" data-answer="O" autocomplete="off"><span class="tile filled">G</span></div>
       <button class="check-btn" data-check>Check</button>
       <p class="challenge-feedback" data-feedback></p>
     </div>
   </section>
 
   <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 3 of 15</div>
+    <div class="word-counter">Challenge 3 of 5</div>
     <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="BANANA"><span class="tile filled">B</span><span class="tile filled">A</span><input class="blank-input" maxlength="1" data-answer="N" autocomplete="off"><span class="tile filled">A</span><input class="blank-input" maxlength="1" data-answer="N" autocomplete="off"><span class="tile filled">A</span></div>
+      <p class="challenge-label">Fill in the missing letter!</p>
+      <div class="challenge-picture-clue">☀️</div>
+      <div class="tile-row" data-word="SUN"><span class="tile filled">S</span><input class="blank-input" maxlength="1" data-answer="U" autocomplete="off"><span class="tile filled">N</span></div>
       <button class="check-btn" data-check>Check</button>
       <p class="challenge-feedback" data-feedback></p>
     </div>
   </section>
 
   <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 4 of 15</div>
+    <div class="word-counter">Challenge 4 of 5</div>
     <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="RAINBOW"><span class="tile filled">R</span><span class="tile filled">A</span><input class="blank-input" maxlength="1" data-answer="I" autocomplete="off"><span class="tile filled">N</span><input class="blank-input" maxlength="1" data-answer="B" autocomplete="off"><span class="tile filled">O</span><input class="blank-input" maxlength="1" data-answer="W" autocomplete="off"></div>
+      <p class="challenge-label">Fill in the missing letter!</p>
+      <div class="challenge-picture-clue">☕</div>
+      <div class="tile-row" data-word="CUP"><span class="tile filled">C</span><input class="blank-input" maxlength="1" data-answer="U" autocomplete="off"><span class="tile filled">P</span></div>
       <button class="check-btn" data-check>Check</button>
       <p class="challenge-feedback" data-feedback></p>
     </div>
   </section>
 
   <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 5 of 15</div>
+    <div class="word-counter">Challenge 5 of 5</div>
     <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="DRAGON"><span class="tile filled">D</span><input class="blank-input" maxlength="1" data-answer="R" autocomplete="off"><span class="tile filled">A</span><input class="blank-input" maxlength="1" data-answer="G" autocomplete="off"><span class="tile filled">O</span><input class="blank-input" maxlength="1" data-answer="N" autocomplete="off"></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 6 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="PIZZA"><span class="tile filled">P</span><input class="blank-input" maxlength="1" data-answer="I" autocomplete="off"><span class="tile filled">Z</span><input class="blank-input" maxlength="1" data-answer="Z" autocomplete="off"><span class="tile filled">A</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 7 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="ROBOT"><span class="tile filled">R</span><input class="blank-input" maxlength="1" data-answer="O" autocomplete="off"><span class="tile filled">B</span><input class="blank-input" maxlength="1" data-answer="O" autocomplete="off"><span class="tile filled">T</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 8 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="BUTTERFLY"><span class="tile filled">B</span><input class="blank-input" maxlength="1" data-answer="U" autocomplete="off"><span class="tile filled">T</span><span class="tile filled">T</span><input class="blank-input" maxlength="1" data-answer="E" autocomplete="off"><span class="tile filled">R</span><span class="tile filled">F</span><input class="blank-input" maxlength="1" data-answer="L" autocomplete="off"><span class="tile filled">Y</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 9 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="TREASURE"><span class="tile filled">T</span><input class="blank-input" maxlength="1" data-answer="R" autocomplete="off"><span class="tile filled">E</span><input class="blank-input" maxlength="1" data-answer="A" autocomplete="off"><span class="tile filled">S</span><span class="tile filled">U</span><input class="blank-input" maxlength="1" data-answer="R" autocomplete="off"><span class="tile filled">E</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 10 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="DINOSAUR"><span class="tile filled">D</span><input class="blank-input" maxlength="1" data-answer="I" autocomplete="off"><span class="tile filled">N</span><span class="tile filled">O</span><input class="blank-input" maxlength="1" data-answer="S" autocomplete="off"><span class="tile filled">A</span><input class="blank-input" maxlength="1" data-answer="U" autocomplete="off"><span class="tile filled">R</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 11 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="UMBRELLA"><span class="tile filled">U</span><input class="blank-input" maxlength="1" data-answer="M" autocomplete="off"><span class="tile filled">B</span><span class="tile filled">R</span><input class="blank-input" maxlength="1" data-answer="E" autocomplete="off"><span class="tile filled">L</span><input class="blank-input" maxlength="1" data-answer="L" autocomplete="off"><span class="tile filled">A</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 12 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="SPACESHIP"><span class="tile filled">S</span><input class="blank-input" maxlength="1" data-answer="P" autocomplete="off"><span class="tile filled">A</span><span class="tile filled">C</span><input class="blank-input" maxlength="1" data-answer="E" autocomplete="off"><span class="tile filled">S</span><span class="tile filled">H</span><input class="blank-input" maxlength="1" data-answer="I" autocomplete="off"><span class="tile filled">P</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 13 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="PENGUIN"><span class="tile filled">P</span><input class="blank-input" maxlength="1" data-answer="E" autocomplete="off"><span class="tile filled">N</span><input class="blank-input" maxlength="1" data-answer="G" autocomplete="off"><span class="tile filled">U</span><input class="blank-input" maxlength="1" data-answer="I" autocomplete="off"><span class="tile filled">N</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 14 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="VOLCANO"><span class="tile filled">V</span><input class="blank-input" maxlength="1" data-answer="O" autocomplete="off"><span class="tile filled">L</span><input class="blank-input" maxlength="1" data-answer="C" autocomplete="off"><span class="tile filled">A</span><input class="blank-input" maxlength="1" data-answer="N" autocomplete="off"><span class="tile filled">O</span></div>
-      <button class="check-btn" data-check>Check</button>
-      <p class="challenge-feedback" data-feedback></p>
-    </div>
-  </section>
-
-  <section class="slide challenge-slide" data-slide>
-    <div class="word-counter">Challenge 15 of 15</div>
-    <div class="challenge-card">
-      <p class="challenge-label">Fill in the missing letters!</p>
-      <div class="tile-row" data-word="UNICORN"><span class="tile filled">U</span><input class="blank-input" maxlength="1" data-answer="N" autocomplete="off"><span class="tile filled">I</span><input class="blank-input" maxlength="1" data-answer="C" autocomplete="off"><span class="tile filled">O</span><input class="blank-input" maxlength="1" data-answer="R" autocomplete="off"><span class="tile filled">N</span></div>
+      <p class="challenge-label">Fill in the missing letter!</p>
+      <div class="challenge-picture-clue">🖊️</div>
+      <div class="tile-row" data-word="PEN"><span class="tile filled">P</span><input class="blank-input" maxlength="1" data-answer="E" autocomplete="off"><span class="tile filled">N</span></div>
       <button class="check-btn" data-check>Check</button>
       <p class="challenge-feedback" data-feedback></p>
     </div>
