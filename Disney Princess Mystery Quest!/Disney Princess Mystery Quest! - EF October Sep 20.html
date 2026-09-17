@@ -1133,6 +1133,12 @@ document.querySelectorAll('[data-media-img]').forEach(function (img) {
 
 // For each audio slot, probe extensions with a throwaway Audio() to find the working file+URL.
 // Once found, show a lock overlay (not the controls) so it stays a real guessing clue.
+// Single global "currently playing" tracker so starting one song stops any other song playing anywhere in the deck.
+var globalActiveAudio = null;
+function stopAnyPlayingSong() {
+  if (globalActiveAudio) { globalActiveAudio.pause(); globalActiveAudio = null; }
+}
+
 document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   var slotId = controls.getAttribute('data-audio-controls');
   var chorusBtn = controls.querySelector('[data-play-chorus]');
@@ -1141,10 +1147,10 @@ document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   var exts = chorusBtn.getAttribute('data-exts').split(',');
   var missingHint = document.querySelector('[data-missing-hint="' + slotId + '"]');
   var lockOverlay = document.querySelector('[data-lock-overlay="' + slotId + '"]');
+  var mediaBox = document.querySelector('[data-media-box="' + slotId + '"]');
   var startInput = controls.querySelector('[data-chorus-start]');
   var endInput = controls.querySelector('[data-chorus-end]');
   var resolvedUrl = null;
-  var activeAudio = null;
   var i = 0;
 
   // Restore any previously-typed chorus range for this princess (persists across sessions).
@@ -1178,24 +1184,20 @@ document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   if (lockOverlay) {
     function reveal() {
       if (currentTool !== 'pointer') return;
-      lockOverlay.style.display = 'none';
+      if (mediaBox) mediaBox.style.display = 'none'; // collapse the now-empty locked box entirely
       controls.style.display = 'block';
     }
     lockOverlay.addEventListener('click', reveal);
     lockOverlay.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') reveal(); });
   }
 
-  function stopActive() {
-    if (activeAudio) { activeAudio.pause(); activeAudio = null; }
-  }
-
   chorusBtn.addEventListener('click', function () {
     if (!resolvedUrl) return;
-    stopActive();
+    stopAnyPlayingSong();
     var startSec = parseTimeToSeconds(startInput.value || startInput.placeholder);
     var endSec = parseTimeToSeconds(endInput.value || endInput.placeholder);
     var a = new Audio(resolvedUrl);
-    activeAudio = a;
+    globalActiveAudio = a;
     a.currentTime = startSec;
     a.play();
     if (endSec > startSec) {
@@ -1209,9 +1211,9 @@ document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   });
   fullBtn.addEventListener('click', function () {
     if (!resolvedUrl) return;
-    stopActive();
+    stopAnyPlayingSong();
     var a = new Audio(resolvedUrl);
-    activeAudio = a;
+    globalActiveAudio = a;
     a.play();
   });
 });
