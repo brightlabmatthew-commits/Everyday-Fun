@@ -6,25 +6,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 :root {
-  --pink: #f7c9dd;
-  --lavender: #c9b6e4;
-  --gold: #e8b84b;
-  --plum: #4a2545;
-  --plum-dark: #2e1730;
-  --cream: #fff8f0;
+  --pink: #ff6fa5;
+  --pink-soft: #ffd6e6;
+  --lavender: #b79ce8;
+  --gold: #f0b429;
+  --ink: #4a2545;
+  --panel: #ffffff;
+  --bg-top: #fff0f7;
+  --bg-bottom: #f2e9ff;
 }
 * { box-sizing: border-box; }
 html, body {
   margin: 0; padding: 0; width: 100%; height: 100%;
   font-family: 'Trebuchet MS', 'Segoe UI', Verdana, sans-serif;
-  background: var(--plum-dark);
+  background: linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
   overflow: hidden;
 }
 #deck { position: relative; width: 100vw; height: 100vh; }
 
 /* ---------- Ambient fairytale background ---------- */
-.fairy-bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; background: radial-gradient(circle at 60% 20%, #5a2e63, var(--plum-dark) 75%); }
-.sparkle { position: absolute; opacity: 0.2; animation: sparkle-float ease-in-out infinite; }
+.fairy-bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; background: radial-gradient(circle at 60% 20%, #fff6fb, var(--bg-bottom) 75%); }
+.sparkle { position: absolute; opacity: 0.35; animation: sparkle-float ease-in-out infinite; }
 @keyframes sparkle-float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-22px) rotate(10deg); } }
 .sp1 { top: 10%; left: 8%; font-size: 46px; animation-duration: 7s; }
 .sp2 { top: 68%; left: 12%; font-size: 34px; animation-duration: 6s; animation-delay: -2s; }
@@ -35,106 +37,115 @@ html, body {
 /* ---------- Slides & transitions ---------- */
 .slide {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  flex-direction: column; padding: 74px 40px 40px; text-align: center; color: var(--cream);
+  flex-direction: column; padding: 74px 40px 40px; text-align: center; color: var(--ink);
   opacity: 0; visibility: hidden; transform: scale(0.94);
   transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
   z-index: 1;
 }
 .slide.active { opacity: 1; visibility: visible; transform: scale(1); z-index: 2; }
+.slide.princess-slide { justify-content: flex-start; padding-top: 96px; overflow-y: auto; }
 .slide.princess-slide.active { animation: popin 0.5s ease; }
 @keyframes popin { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
 h1, h2, h3 { margin: 0 0 10px; }
-.eyebrow { letter-spacing: 2px; color: var(--gold); font-weight: bold; font-size: 15px; }
+.eyebrow { letter-spacing: 2px; color: var(--pink); font-weight: bold; font-size: 15px; }
 
 /* ---------- Title slide ---------- */
 .title-card {
-  background: linear-gradient(160deg, #5a2e63, #2e1730); border: 3px solid var(--gold);
-  border-radius: 22px; padding: 40px 50px; max-width: 720px; box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  background: var(--panel); border: 3px solid var(--gold);
+  border-radius: 22px; padding: 40px 50px; max-width: 720px; box-shadow: 0 20px 50px rgba(74,37,69,0.18);
 }
-.title-card img.logo { width: 108px; margin-bottom: 12px; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35)); }
-.title-card h1 { color: var(--gold); font-size: clamp(24px, 4vw, 40px); }
-.title-card .sub { font-weight: bold; opacity: 0.9; }
+.title-card img.logo { width: 108px; margin-bottom: 12px; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.15)); }
+.title-card h1 { color: var(--pink); font-size: clamp(24px, 4vw, 40px); }
+.title-card .sub { font-weight: bold; opacity: 0.85; }
 
 /* ---------- Instructions ---------- */
 .card {
-  background: rgba(255,255,255,0.06); border: 2px solid rgba(232,184,75,0.4);
-  border-radius: 20px; padding: 30px 34px; max-width: 720px;
+  background: var(--panel); border: 2px solid rgba(240,180,41,0.5);
+  border-radius: 20px; padding: 30px 34px; max-width: 720px; box-shadow: 0 16px 40px rgba(74,37,69,0.12);
 }
-.card h2 { color: var(--gold); }
+.card h2 { color: var(--pink); }
 .steps-text { text-align: left; font-size: 17px; line-height: 1.6; }
-.steps-text b { color: var(--pink); }
+.steps-text b { color: #c23a7a; }
 
 
 /* ---------- Princess (storybook) slides ---------- */
-.page-counter { color: var(--gold); font-weight: bold; letter-spacing: 1px; margin-bottom: 12px; }
+.page-counter { color: #c23a7a; font-weight: bold; letter-spacing: 1px; margin-bottom: 12px; }
 .storybook-page {
-  position: relative; width: min(760px, 92vw); background: rgba(255,255,255,0.05);
-  border: 3px solid var(--gold); border-radius: 20px; padding: 24px 28px; box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+  position: relative; width: min(760px, 92vw); background: var(--panel);
+  border: 3px solid var(--gold); border-radius: 20px; padding: 24px 28px; box-shadow: 0 16px 40px rgba(74,37,69,0.15);
 }
-.page-corner { position: absolute; font-size: 22px; opacity: 0.6; }
+.page-corner { position: absolute; font-size: 22px; opacity: 0.5; }
 .page-corner.tl { top: 10px; left: 14px; } .page-corner.br { bottom: 10px; right: 14px; }
 .guess-prompt { font-weight: bold; font-size: 16px; margin: 0 0 14px; }
 .clue-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; align-items: flex-start; }
 .clue-slot { width: 170px; flex-shrink: 0; }
 .clue-slot.audio-slot { width: 230px; }
-.clue-label { font-size: 13px; font-weight: bold; margin-bottom: 6px; color: var(--pink); }
+.clue-label { font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #c23a7a; }
 .upload-box {
-  width: 170px; height: 210px; border: 3px dashed rgba(255,255,255,0.35); border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(0,0,0,0.18);
+  width: 170px; height: 210px; border: 3px dashed rgba(74,37,69,0.25); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; cursor: pointer; background: #fdf6fa;
   overflow: hidden; position: relative;
 }
 .upload-box:hover { border-color: var(--gold); }
-.upload-hint { font-size: 12px; opacity: 0.7; padding: 0 8px; }
+.upload-hint { font-size: 12px; opacity: 0.65; padding: 0 8px; }
 .upload-box img { width: 100%; height: 100%; object-fit: contain; }
 .upload-box audio { width: 100%; max-width: 150px; }
 .lock-overlay {
   position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px; font-size: 34px; cursor: pointer; background: rgba(74,45,117,0.55); color: var(--cream);
+  gap: 6px; font-size: 34px; cursor: pointer; background: var(--pink-soft); color: var(--ink);
   text-align: center; padding: 10px;
 }
 .lock-overlay small { font-size: 12px; font-weight: bold; max-width: 130px; }
-.lock-overlay:hover { background: rgba(74,45,117,0.75); }
+.lock-overlay:hover { background: #ffc2dc; }
+.lock-overlay.seq-waiting { background: #f0edf2; color: #9a8a97; cursor: default; opacity: 0.85; }
+.lock-overlay.seq-waiting:hover { background: #f0edf2; }
 .audio-box .lock-overlay { position: static; height: 100%; background: transparent; font-size: 22px; }
-.audio-box .lock-overlay:hover { background: rgba(255,255,255,0.05); }
+.audio-box .lock-overlay:hover { background: rgba(74,37,69,0.04); }
+.audio-box .lock-overlay.seq-waiting { background: transparent; }
 .audio-box { width: 230px; height: 76px; }
 .audio-controls { margin-top: 8px; text-align: left; font-size: 12px; width: 230px; }
 .chorus-label { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; flex-wrap: wrap; }
 .chorus-time-input {
-  border-radius: 6px; border: 1px solid rgba(255,255,255,0.3); padding: 3px 6px; font-size: 12px;
-  width: 48px; background: rgba(255,255,255,0.9); color: var(--plum-dark); box-sizing: border-box;
+  border-radius: 6px; border: 1px solid rgba(74,37,69,0.3); padding: 3px 6px; font-size: 12px;
+  width: 48px; background: #ffffff; color: var(--ink); box-sizing: border-box;
 }
 .audio-btn-row { display: flex; flex-direction: column; gap: 6px; width: 100%; }
 .play-chorus-btn, .play-full-btn {
   border: none; border-radius: 16px; padding: 7px 8px; font-size: 12px; cursor: pointer; font-weight: bold;
   width: 100%; box-sizing: border-box; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
 }
-.play-chorus-btn { background: var(--gold); color: var(--plum-dark); }
-.play-full-btn { background: rgba(255,255,255,0.15); color: var(--cream); }
+.play-chorus-btn { background: var(--gold); color: var(--ink); }
+.play-full-btn { background: #f0edf2; color: var(--ink); }
+.pause-btn {
+  border: none; border-radius: 16px; padding: 7px 8px; font-size: 12px; cursor: pointer; font-weight: bold;
+  width: 100%; box-sizing: border-box; background: #ef5b5b; color: white;
+}
+.pause-btn:disabled { opacity: 0.35; cursor: default; }
 .clear-clue-btn {
-  margin-top: 4px; font-size: 11px; background: rgba(239,91,91,0.85); color: white; border: none;
+  margin-top: 4px; font-size: 11px; background: #ef5b5b; color: white; border: none;
   border-radius: 10px; padding: 3px 8px; cursor: pointer;
 }
 .reveal-btn {
-  background: var(--gold); color: var(--plum-dark); font-weight: bold; border: none; border-radius: 30px;
+  background: var(--gold); color: var(--ink); font-weight: bold; border: none; border-radius: 30px;
   padding: 12px 24px; font-size: 15px; cursor: pointer; transition: transform 0.15s ease;
 }
 .reveal-btn:active { transform: scale(0.96); }
 .storybook-page.open .reveal-btn { opacity: 0.5; cursor: default; }
 .answer-panel {
-  max-width: 600px; margin: 16px auto 0; opacity: 0; transform: translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  background: rgba(255,255,255,0.08); border: 2px solid rgba(232,184,75,0.35); border-radius: 16px; padding: 14px 22px;
+  max-width: 600px; margin: 0 auto; max-height: 0; opacity: 0; overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.5s ease, margin-top 0.5s ease;
+  background: #fff6fb; border: 2px solid rgba(240,180,41,0.4); border-radius: 16px; padding: 0 22px;
 }
-.storybook-page.open .answer-panel { opacity: 1; transform: translateY(0); }
-.answer-panel h3 { color: var(--gold); font-size: 22px; }
-.talk-label { color: #7be0a0; font-weight: bold; margin: 6px 0 2px; }
+.storybook-page.open .answer-panel { opacity: 1; max-height: 600px; padding: 14px 22px; margin-top: 16px; }
+.answer-panel h3 { color: #c23a7a; font-size: 22px; }
+.talk-label { color: #2f9e5e; font-weight: bold; margin: 6px 0 2px; }
 .talk-list { text-align: left; margin: 0 auto; max-width: 480px; padding-left: 22px; font-size: 14px; line-height: 1.5; }
 
 /* ---------- Thank you ---------- */
 .thanks-badge {
   width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, #fff6df, var(--gold));
-  display: flex; align-items: center; justify-content: center; margin-bottom: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 18px; box-shadow: 0 10px 30px rgba(74,37,69,0.2);
 }
 .thanks-badge img { width: 90px; }
 
@@ -142,71 +153,73 @@ h1, h2, h3 { margin: 0 0 10px; }
 .nav-btn {
   position: fixed; top: 50%; transform: translateY(-50%); z-index: 50;
   width: 52px; height: 52px; border-radius: 50%; border: none; cursor: pointer;
-  background: rgba(232,184,75,0.92); color: var(--plum-dark); font-size: 22px; font-weight: bold;
+  background: var(--pink); color: white; font-size: 22px; font-weight: bold;
+  box-shadow: 0 6px 16px rgba(74,37,69,0.25);
 }
 .nav-btn:disabled { opacity: 0.25; cursor: default; }
 #prevBtn { left: 16px; } #nextBtn { right: 16px; }
-.progress { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 50; color: var(--cream); font-size: 13px; opacity: 0.8; }
+.progress { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 50; color: var(--ink); font-size: 13px; opacity: 0.7; }
 
 /* ---------- Annotation toolbar ---------- */
 #annoLayer { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
 #annoToolbar {
   position: fixed; top: 10px; left: 10px; z-index: 60;
-  background: rgba(46,23,48,0.9); border-radius: 12px; padding: 6px; display: flex; flex-direction: row;
+  background: rgba(74,37,69,0.92); border-radius: 12px; padding: 6px; display: flex; flex-direction: row;
   align-items: center; gap: 6px;
 }
 #annoTools { display: flex; flex-direction: row; align-items: center; gap: 6px; }
 #annoTools.collapsed { display: none; }
 #annoToolbar button {
   width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
-  background: #5a2e63; color: #e8e8e8; cursor: pointer; font-size: 15px; flex-shrink: 0;
+  background: #6b3d63; color: #f5ede4; cursor: pointer; font-size: 15px; flex-shrink: 0;
 }
-#annoToolbar button.active-tool { background: var(--gold); color: var(--plum-dark); }
+#annoToolbar button.active-tool { background: var(--gold); color: var(--ink); }
 #annoHandle {
-  background: rgba(46,23,48,0.9); color: #e8e8e8; border: none; border-radius: 8px;
+  background: rgba(74,37,69,0.92); color: #f5ede4; border: none; border-radius: 8px;
   width: 30px; height: 34px; cursor: pointer; font-size: 13px; flex-shrink: 0;
 }
 .swatches { display: flex; gap: 3px; flex-wrap: wrap; width: 34px; }
 .swatch { width: 14px; height: 14px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
 .swatch.active { border-color: white; }
 #textPanel {
-  position: fixed; z-index: 70; background: #2e1730; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 10px; display: none; flex-direction: column; gap: 6px;
+  position: fixed; z-index: 70; background: #4a2545; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 10px; display: none; flex-direction: column; gap: 6px;
 }
 #textPanel textarea { width: 180px; height: 60px; resize: none; border-radius: 6px; border: none; padding: 6px; font-family: inherit; }
 #textPanel .row { display: flex; gap: 6px; }
 #textPanel button { flex: 1; border: none; border-radius: 6px; padding: 6px; cursor: pointer; }
-.anno-text-label { position: absolute; cursor: pointer; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,0,0.25); font-size: 14px; color: #111; white-space: pre-wrap; pointer-events: auto; }
+.anno-text-label { position: absolute; cursor: pointer; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,0,0.35); font-size: 14px; color: #111; white-space: pre-wrap; pointer-events: auto; }
 
 /* ---------- Song setup modal ---------- */
 .modal-overlay {
-  position: fixed; inset: 0; z-index: 100; background: rgba(20,10,25,0.82);
+  position: fixed; inset: 0; z-index: 100; background: rgba(74,37,69,0.55);
   display: flex; align-items: center; justify-content: center; padding: 20px;
   opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s;
 }
 .modal-overlay.shown { opacity: 1; visibility: visible; }
 .modal-box {
-  background: linear-gradient(160deg, #5a2e63, #2e1730); border: 3px solid var(--gold);
+  background: var(--panel); border: 3px solid var(--gold);
   border-radius: 20px; padding: 28px 32px; max-width: 580px; width: 100%;
-  max-height: 84vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(0,0,0,0.5); color: var(--cream);
+  max-height: 84vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(74,37,69,0.3); color: var(--ink);
 }
-.modal-box h2 { color: var(--gold); margin-top: 0; font-size: 22px; text-align: center; }
-.modal-intro { font-size: 14px; text-align: center; opacity: 0.9; margin-bottom: 18px; }
+.modal-box h2 { color: var(--pink); margin-top: 0; font-size: 22px; text-align: center; }
+.modal-intro { font-size: 14px; text-align: center; opacity: 0.8; margin-bottom: 18px; }
 .modal-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .modal-row {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  background: rgba(255,255,255,0.06); border-radius: 10px; padding: 8px 12px;
+  background: #fdf6fa; border-radius: 10px; padding: 8px 12px;
 }
 .modal-row-name { font-weight: bold; font-size: 15px; }
 .modal-row-label { font-size: 13px; display: flex; align-items: center; gap: 6px; }
 .modal-row-label .chorus-time-input { width: 60px; }
 .modal-btn-row { display: flex; gap: 10px; justify-content: center; }
 .modal-btn-row button { border: none; border-radius: 24px; padding: 10px 20px; font-weight: bold; cursor: pointer; font-size: 14px; }
-#modalStartBtn { background: var(--gold); color: var(--plum-dark); }
-#modalSkipBtn { background: rgba(255,255,255,0.15); color: var(--cream); }
+#modalStartBtn { background: var(--gold); color: var(--ink); }
+#modalSkipBtn { background: #f0edf2; color: var(--ink); }
 #reopenModalBtn {
   position: fixed; bottom: 10px; right: 16px; z-index: 45;
-  background: rgba(232,184,75,0.9); color: var(--plum-dark); border: none; border-radius: 20px;
+  background: var(--gold); color: var(--ink); border: none; border-radius: 20px;
   padding: 8px 14px; font-size: 13px; font-weight: bold; cursor: pointer;
+  box-shadow: 0 6px 16px rgba(74,37,69,0.2);
 }
 </style>
 </head>
@@ -234,7 +247,7 @@ h1, h2, h3 { margin: 0 0 10px; }
       <h2>Instructions</h2>
       <div class="steps-text">
         <p>Let's go on a <b>princess guessing quest</b>! &#128081;</p>
-        <p>1. Tap a &#128274; locked clue to reveal it &mdash; a face, a song, or a bonus clue.</p>
+        <p>1. Tap the &#128274; locked clue to reveal it, in order: song, then bonus clue, then face.</p>
         <p>2. Take a guess together as a class before revealing more clues.</p>
         <p>3. Tap <b>"Reveal the Princess!"</b> only once you're ready to check the answer.</p>
       </div>
@@ -249,16 +262,6 @@ h1, h2, h3 { margin: 0 0 10px; }
       <div class="page-corner br">&#10024;</div>
       <p class="guess-prompt">Look at the clues &mdash; which princess is this?</p>
       <div class="clue-row">
-        <div class="clue-slot" data-kind="image">
-          <div class="clue-label">&#128248; Face Clue</div>
-          <div class="upload-box" data-media-box="moana-face">
-            <img data-media-img="moana-face" data-basepath="princess-media/moana/face" data-exts="jpg,jpeg,png,webp" style="display:none">
-            <span class="upload-hint" data-missing-hint="moana-face">No image found<br><small>princess-media/moana/face.jpg</small></span>
-            <div class="lock-overlay" data-lock-overlay="moana-face" style="display:none" tabindex="0" role="button">
-              &#128274;<br><small>Tap to reveal this clue</small>
-            </div>
-          </div>
-        </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="moana-song">
@@ -269,13 +272,14 @@ h1, h2, h3 { margin: 0 0 10px; }
           </div>
           <div class="audio-controls" data-audio-controls="moana-song" style="display:none">
             <label class="chorus-label">Chorus:
-              <input type="text" class="chorus-time-input" data-chorus-start="moana-song" placeholder="0:05" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-start="moana-song" placeholder="0:50" size="5">
               <span>to</span>
-              <input type="text" class="chorus-time-input" data-chorus-end="moana-song" placeholder="0:30" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-end="moana-song" placeholder="1:20" size="5">
             </label>
             <div class="audio-btn-row">
               <button class="play-chorus-btn" data-play-chorus="moana-song" data-basepath="princess-media/moana/song" data-exts="mp3,wav,m4a,ogg">&#9654; Play Chorus</button>
               <button class="play-full-btn" data-play-full="moana-song" data-basepath="princess-media/moana/song" data-exts="mp3,wav,m4a,ogg">&#9654; Full Song</button>
+              <button class="pause-btn" data-pause="moana-song" disabled>&#9208; Pause</button>
             </div>
           </div>
         </div>
@@ -285,6 +289,16 @@ h1, h2, h3 { margin: 0 0 10px; }
             <img data-media-img="moana-bonus" data-basepath="princess-media/moana/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="moana-bonus">No image found<br><small>princess-media/moana/bonus.jpg</small></span>
             <div class="lock-overlay" data-lock-overlay="moana-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
+          </div>
+        </div>
+        <div class="clue-slot" data-kind="image">
+          <div class="clue-label">&#128248; Face Clue</div>
+          <div class="upload-box" data-media-box="moana-face">
+            <img data-media-img="moana-face" data-basepath="princess-media/moana/face" data-exts="jpg,jpeg,png,webp" style="display:none">
+            <span class="upload-hint" data-missing-hint="moana-face">No image found<br><small>princess-media/moana/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="moana-face" style="display:none" tabindex="0" role="button">
               &#128274;<br><small>Tap to reveal this clue</small>
             </div>
           </div>
@@ -305,16 +319,6 @@ h1, h2, h3 { margin: 0 0 10px; }
       <div class="page-corner br">&#10024;</div>
       <p class="guess-prompt">Look at the clues &mdash; which princess is this?</p>
       <div class="clue-row">
-        <div class="clue-slot" data-kind="image">
-          <div class="clue-label">&#128248; Face Clue</div>
-          <div class="upload-box" data-media-box="snow-white-face">
-            <img data-media-img="snow-white-face" data-basepath="princess-media/snowwhite/face" data-exts="jpg,jpeg,png,webp" style="display:none">
-            <span class="upload-hint" data-missing-hint="snow-white-face">No image found<br><small>princess-media/snowwhite/face.jpg</small></span>
-            <div class="lock-overlay" data-lock-overlay="snow-white-face" style="display:none" tabindex="0" role="button">
-              &#128274;<br><small>Tap to reveal this clue</small>
-            </div>
-          </div>
-        </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="snow-white-song">
@@ -325,13 +329,14 @@ h1, h2, h3 { margin: 0 0 10px; }
           </div>
           <div class="audio-controls" data-audio-controls="snow-white-song" style="display:none">
             <label class="chorus-label">Chorus:
-              <input type="text" class="chorus-time-input" data-chorus-start="snow-white-song" placeholder="0:05" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-start="snow-white-song" placeholder="0:00" size="5">
               <span>to</span>
-              <input type="text" class="chorus-time-input" data-chorus-end="snow-white-song" placeholder="0:30" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-end="snow-white-song" placeholder="0:20" size="5">
             </label>
             <div class="audio-btn-row">
               <button class="play-chorus-btn" data-play-chorus="snow-white-song" data-basepath="princess-media/snowwhite/song" data-exts="mp3,wav,m4a,ogg">&#9654; Play Chorus</button>
               <button class="play-full-btn" data-play-full="snow-white-song" data-basepath="princess-media/snowwhite/song" data-exts="mp3,wav,m4a,ogg">&#9654; Full Song</button>
+              <button class="pause-btn" data-pause="snow-white-song" disabled>&#9208; Pause</button>
             </div>
           </div>
         </div>
@@ -341,6 +346,16 @@ h1, h2, h3 { margin: 0 0 10px; }
             <img data-media-img="snow-white-bonus" data-basepath="princess-media/snowwhite/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="snow-white-bonus">No image found<br><small>princess-media/snowwhite/bonus.jpg</small></span>
             <div class="lock-overlay" data-lock-overlay="snow-white-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
+          </div>
+        </div>
+        <div class="clue-slot" data-kind="image">
+          <div class="clue-label">&#128248; Face Clue</div>
+          <div class="upload-box" data-media-box="snow-white-face">
+            <img data-media-img="snow-white-face" data-basepath="princess-media/snowwhite/face" data-exts="jpg,jpeg,png,webp" style="display:none">
+            <span class="upload-hint" data-missing-hint="snow-white-face">No image found<br><small>princess-media/snowwhite/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="snow-white-face" style="display:none" tabindex="0" role="button">
               &#128274;<br><small>Tap to reveal this clue</small>
             </div>
           </div>
@@ -361,16 +376,6 @@ h1, h2, h3 { margin: 0 0 10px; }
       <div class="page-corner br">&#10024;</div>
       <p class="guess-prompt">Look at the clues &mdash; which princess is this?</p>
       <div class="clue-row">
-        <div class="clue-slot" data-kind="image">
-          <div class="clue-label">&#128248; Face Clue</div>
-          <div class="upload-box" data-media-box="cinderella-face">
-            <img data-media-img="cinderella-face" data-basepath="princess-media/cinderella/face" data-exts="jpg,jpeg,png,webp" style="display:none">
-            <span class="upload-hint" data-missing-hint="cinderella-face">No image found<br><small>princess-media/cinderella/face.jpg</small></span>
-            <div class="lock-overlay" data-lock-overlay="cinderella-face" style="display:none" tabindex="0" role="button">
-              &#128274;<br><small>Tap to reveal this clue</small>
-            </div>
-          </div>
-        </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="cinderella-song">
@@ -381,13 +386,14 @@ h1, h2, h3 { margin: 0 0 10px; }
           </div>
           <div class="audio-controls" data-audio-controls="cinderella-song" style="display:none">
             <label class="chorus-label">Chorus:
-              <input type="text" class="chorus-time-input" data-chorus-start="cinderella-song" placeholder="0:05" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-start="cinderella-song" placeholder="0:25" size="5">
               <span>to</span>
-              <input type="text" class="chorus-time-input" data-chorus-end="cinderella-song" placeholder="0:30" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-end="cinderella-song" placeholder="0:45" size="5">
             </label>
             <div class="audio-btn-row">
               <button class="play-chorus-btn" data-play-chorus="cinderella-song" data-basepath="princess-media/cinderella/song" data-exts="mp3,wav,m4a,ogg">&#9654; Play Chorus</button>
               <button class="play-full-btn" data-play-full="cinderella-song" data-basepath="princess-media/cinderella/song" data-exts="mp3,wav,m4a,ogg">&#9654; Full Song</button>
+              <button class="pause-btn" data-pause="cinderella-song" disabled>&#9208; Pause</button>
             </div>
           </div>
         </div>
@@ -397,6 +403,16 @@ h1, h2, h3 { margin: 0 0 10px; }
             <img data-media-img="cinderella-bonus" data-basepath="princess-media/cinderella/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="cinderella-bonus">No image found<br><small>princess-media/cinderella/bonus.jpg</small></span>
             <div class="lock-overlay" data-lock-overlay="cinderella-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
+          </div>
+        </div>
+        <div class="clue-slot" data-kind="image">
+          <div class="clue-label">&#128248; Face Clue</div>
+          <div class="upload-box" data-media-box="cinderella-face">
+            <img data-media-img="cinderella-face" data-basepath="princess-media/cinderella/face" data-exts="jpg,jpeg,png,webp" style="display:none">
+            <span class="upload-hint" data-missing-hint="cinderella-face">No image found<br><small>princess-media/cinderella/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="cinderella-face" style="display:none" tabindex="0" role="button">
               &#128274;<br><small>Tap to reveal this clue</small>
             </div>
           </div>
@@ -417,16 +433,6 @@ h1, h2, h3 { margin: 0 0 10px; }
       <div class="page-corner br">&#10024;</div>
       <p class="guess-prompt">Look at the clues &mdash; which princess is this?</p>
       <div class="clue-row">
-        <div class="clue-slot" data-kind="image">
-          <div class="clue-label">&#128248; Face Clue</div>
-          <div class="upload-box" data-media-box="belle-face">
-            <img data-media-img="belle-face" data-basepath="princess-media/belle/face" data-exts="jpg,jpeg,png,webp" style="display:none">
-            <span class="upload-hint" data-missing-hint="belle-face">No image found<br><small>princess-media/belle/face.jpg</small></span>
-            <div class="lock-overlay" data-lock-overlay="belle-face" style="display:none" tabindex="0" role="button">
-              &#128274;<br><small>Tap to reveal this clue</small>
-            </div>
-          </div>
-        </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="belle-song">
@@ -437,13 +443,14 @@ h1, h2, h3 { margin: 0 0 10px; }
           </div>
           <div class="audio-controls" data-audio-controls="belle-song" style="display:none">
             <label class="chorus-label">Chorus:
-              <input type="text" class="chorus-time-input" data-chorus-start="belle-song" placeholder="0:05" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-start="belle-song" placeholder="0:50" size="5">
               <span>to</span>
-              <input type="text" class="chorus-time-input" data-chorus-end="belle-song" placeholder="0:30" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-end="belle-song" placeholder="1:15" size="5">
             </label>
             <div class="audio-btn-row">
               <button class="play-chorus-btn" data-play-chorus="belle-song" data-basepath="princess-media/belle/song" data-exts="mp3,wav,m4a,ogg">&#9654; Play Chorus</button>
               <button class="play-full-btn" data-play-full="belle-song" data-basepath="princess-media/belle/song" data-exts="mp3,wav,m4a,ogg">&#9654; Full Song</button>
+              <button class="pause-btn" data-pause="belle-song" disabled>&#9208; Pause</button>
             </div>
           </div>
         </div>
@@ -453,6 +460,16 @@ h1, h2, h3 { margin: 0 0 10px; }
             <img data-media-img="belle-bonus" data-basepath="princess-media/belle/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="belle-bonus">No image found<br><small>princess-media/belle/bonus.jpg</small></span>
             <div class="lock-overlay" data-lock-overlay="belle-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
+          </div>
+        </div>
+        <div class="clue-slot" data-kind="image">
+          <div class="clue-label">&#128248; Face Clue</div>
+          <div class="upload-box" data-media-box="belle-face">
+            <img data-media-img="belle-face" data-basepath="princess-media/belle/face" data-exts="jpg,jpeg,png,webp" style="display:none">
+            <span class="upload-hint" data-missing-hint="belle-face">No image found<br><small>princess-media/belle/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="belle-face" style="display:none" tabindex="0" role="button">
               &#128274;<br><small>Tap to reveal this clue</small>
             </div>
           </div>
@@ -473,16 +490,6 @@ h1, h2, h3 { margin: 0 0 10px; }
       <div class="page-corner br">&#10024;</div>
       <p class="guess-prompt">Look at the clues &mdash; which princess is this?</p>
       <div class="clue-row">
-        <div class="clue-slot" data-kind="image">
-          <div class="clue-label">&#128248; Face Clue</div>
-          <div class="upload-box" data-media-box="ariel-face">
-            <img data-media-img="ariel-face" data-basepath="princess-media/ariel/face" data-exts="jpg,jpeg,png,webp" style="display:none">
-            <span class="upload-hint" data-missing-hint="ariel-face">No image found<br><small>princess-media/ariel/face.jpg</small></span>
-            <div class="lock-overlay" data-lock-overlay="ariel-face" style="display:none" tabindex="0" role="button">
-              &#128274;<br><small>Tap to reveal this clue</small>
-            </div>
-          </div>
-        </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="ariel-song">
@@ -493,13 +500,14 @@ h1, h2, h3 { margin: 0 0 10px; }
           </div>
           <div class="audio-controls" data-audio-controls="ariel-song" style="display:none">
             <label class="chorus-label">Chorus:
-              <input type="text" class="chorus-time-input" data-chorus-start="ariel-song" placeholder="0:05" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-start="ariel-song" placeholder="0:55" size="5">
               <span>to</span>
-              <input type="text" class="chorus-time-input" data-chorus-end="ariel-song" placeholder="0:30" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-end="ariel-song" placeholder="1:15" size="5">
             </label>
             <div class="audio-btn-row">
               <button class="play-chorus-btn" data-play-chorus="ariel-song" data-basepath="princess-media/ariel/song" data-exts="mp3,wav,m4a,ogg">&#9654; Play Chorus</button>
               <button class="play-full-btn" data-play-full="ariel-song" data-basepath="princess-media/ariel/song" data-exts="mp3,wav,m4a,ogg">&#9654; Full Song</button>
+              <button class="pause-btn" data-pause="ariel-song" disabled>&#9208; Pause</button>
             </div>
           </div>
         </div>
@@ -509,6 +517,16 @@ h1, h2, h3 { margin: 0 0 10px; }
             <img data-media-img="ariel-bonus" data-basepath="princess-media/ariel/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="ariel-bonus">No image found<br><small>princess-media/ariel/bonus.jpg</small></span>
             <div class="lock-overlay" data-lock-overlay="ariel-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
+          </div>
+        </div>
+        <div class="clue-slot" data-kind="image">
+          <div class="clue-label">&#128248; Face Clue</div>
+          <div class="upload-box" data-media-box="ariel-face">
+            <img data-media-img="ariel-face" data-basepath="princess-media/ariel/face" data-exts="jpg,jpeg,png,webp" style="display:none">
+            <span class="upload-hint" data-missing-hint="ariel-face">No image found<br><small>princess-media/ariel/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="ariel-face" style="display:none" tabindex="0" role="button">
               &#128274;<br><small>Tap to reveal this clue</small>
             </div>
           </div>
@@ -529,16 +547,6 @@ h1, h2, h3 { margin: 0 0 10px; }
       <div class="page-corner br">&#10024;</div>
       <p class="guess-prompt">Look at the clues &mdash; which princess is this?</p>
       <div class="clue-row">
-        <div class="clue-slot" data-kind="image">
-          <div class="clue-label">&#128248; Face Clue</div>
-          <div class="upload-box" data-media-box="rapunzel-face">
-            <img data-media-img="rapunzel-face" data-basepath="princess-media/rapunzel/face" data-exts="jpg,jpeg,png,webp" style="display:none">
-            <span class="upload-hint" data-missing-hint="rapunzel-face">No image found<br><small>princess-media/rapunzel/face.jpg</small></span>
-            <div class="lock-overlay" data-lock-overlay="rapunzel-face" style="display:none" tabindex="0" role="button">
-              &#128274;<br><small>Tap to reveal this clue</small>
-            </div>
-          </div>
-        </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="rapunzel-song">
@@ -549,13 +557,14 @@ h1, h2, h3 { margin: 0 0 10px; }
           </div>
           <div class="audio-controls" data-audio-controls="rapunzel-song" style="display:none">
             <label class="chorus-label">Chorus:
-              <input type="text" class="chorus-time-input" data-chorus-start="rapunzel-song" placeholder="0:05" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-start="rapunzel-song" placeholder="1:00" size="5">
               <span>to</span>
-              <input type="text" class="chorus-time-input" data-chorus-end="rapunzel-song" placeholder="0:30" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-end="rapunzel-song" placeholder="1:25" size="5">
             </label>
             <div class="audio-btn-row">
               <button class="play-chorus-btn" data-play-chorus="rapunzel-song" data-basepath="princess-media/rapunzel/song" data-exts="mp3,wav,m4a,ogg">&#9654; Play Chorus</button>
               <button class="play-full-btn" data-play-full="rapunzel-song" data-basepath="princess-media/rapunzel/song" data-exts="mp3,wav,m4a,ogg">&#9654; Full Song</button>
+              <button class="pause-btn" data-pause="rapunzel-song" disabled>&#9208; Pause</button>
             </div>
           </div>
         </div>
@@ -565,6 +574,16 @@ h1, h2, h3 { margin: 0 0 10px; }
             <img data-media-img="rapunzel-bonus" data-basepath="princess-media/rapunzel/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="rapunzel-bonus">No image found<br><small>princess-media/rapunzel/bonus.jpg</small></span>
             <div class="lock-overlay" data-lock-overlay="rapunzel-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
+          </div>
+        </div>
+        <div class="clue-slot" data-kind="image">
+          <div class="clue-label">&#128248; Face Clue</div>
+          <div class="upload-box" data-media-box="rapunzel-face">
+            <img data-media-img="rapunzel-face" data-basepath="princess-media/rapunzel/face" data-exts="jpg,jpeg,png,webp" style="display:none">
+            <span class="upload-hint" data-missing-hint="rapunzel-face">No image found<br><small>princess-media/rapunzel/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="rapunzel-face" style="display:none" tabindex="0" role="button">
               &#128274;<br><small>Tap to reveal this clue</small>
             </div>
           </div>
@@ -585,16 +604,6 @@ h1, h2, h3 { margin: 0 0 10px; }
       <div class="page-corner br">&#10024;</div>
       <p class="guess-prompt">Look at the clues &mdash; which princess is this?</p>
       <div class="clue-row">
-        <div class="clue-slot" data-kind="image">
-          <div class="clue-label">&#128248; Face Clue</div>
-          <div class="upload-box" data-media-box="elsa-face">
-            <img data-media-img="elsa-face" data-basepath="princess-media/elsa/face" data-exts="jpg,jpeg,png,webp" style="display:none">
-            <span class="upload-hint" data-missing-hint="elsa-face">No image found<br><small>princess-media/elsa/face.jpg</small></span>
-            <div class="lock-overlay" data-lock-overlay="elsa-face" style="display:none" tabindex="0" role="button">
-              &#128274;<br><small>Tap to reveal this clue</small>
-            </div>
-          </div>
-        </div>
         <div class="clue-slot audio-slot" data-kind="audio">
           <div class="clue-label">&#127925; Song Clue</div>
           <div class="upload-box audio-box" data-media-box="elsa-song">
@@ -605,13 +614,14 @@ h1, h2, h3 { margin: 0 0 10px; }
           </div>
           <div class="audio-controls" data-audio-controls="elsa-song" style="display:none">
             <label class="chorus-label">Chorus:
-              <input type="text" class="chorus-time-input" data-chorus-start="elsa-song" placeholder="0:05" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-start="elsa-song" placeholder="0:50" size="5">
               <span>to</span>
-              <input type="text" class="chorus-time-input" data-chorus-end="elsa-song" placeholder="0:30" size="5">
+              <input type="text" class="chorus-time-input" data-chorus-end="elsa-song" placeholder="1:20" size="5">
             </label>
             <div class="audio-btn-row">
               <button class="play-chorus-btn" data-play-chorus="elsa-song" data-basepath="princess-media/elsa/song" data-exts="mp3,wav,m4a,ogg">&#9654; Play Chorus</button>
               <button class="play-full-btn" data-play-full="elsa-song" data-basepath="princess-media/elsa/song" data-exts="mp3,wav,m4a,ogg">&#9654; Full Song</button>
+              <button class="pause-btn" data-pause="elsa-song" disabled>&#9208; Pause</button>
             </div>
           </div>
         </div>
@@ -621,6 +631,16 @@ h1, h2, h3 { margin: 0 0 10px; }
             <img data-media-img="elsa-bonus" data-basepath="princess-media/elsa/bonus" data-exts="jpg,jpeg,png,webp" style="display:none">
             <span class="upload-hint" data-missing-hint="elsa-bonus">No image found<br><small>princess-media/elsa/bonus.jpg</small></span>
             <div class="lock-overlay" data-lock-overlay="elsa-bonus" style="display:none" tabindex="0" role="button">
+              &#128274;<br><small>Tap to reveal this clue</small>
+            </div>
+          </div>
+        </div>
+        <div class="clue-slot" data-kind="image">
+          <div class="clue-label">&#128248; Face Clue</div>
+          <div class="upload-box" data-media-box="elsa-face">
+            <img data-media-img="elsa-face" data-basepath="princess-media/elsa/face" data-exts="jpg,jpeg,png,webp" style="display:none">
+            <span class="upload-hint" data-missing-hint="elsa-face">No image found<br><small>princess-media/elsa/face.jpg</small></span>
+            <div class="lock-overlay" data-lock-overlay="elsa-face" style="display:none" tabindex="0" role="button">
               &#128274;<br><small>Tap to reveal this clue</small>
             </div>
           </div>
@@ -681,63 +701,63 @@ h1, h2, h3 { margin: 0 0 10px; }
         <div class="modal-row">
           <span class="modal-row-name">Moana</span>
           <label class="modal-row-label">Chorus:
-            <input type="text" class="chorus-time-input" data-modal-start="moana-song" placeholder="0:05" size="5">
+            <input type="text" class="chorus-time-input" data-modal-start="moana-song" placeholder="0:50" size="5">
             <span>to</span>
-            <input type="text" class="chorus-time-input" data-modal-end="moana-song" placeholder="0:30" size="5">
+            <input type="text" class="chorus-time-input" data-modal-end="moana-song" placeholder="1:20" size="5">
           </label>
         </div>
 
         <div class="modal-row">
           <span class="modal-row-name">Snow White</span>
           <label class="modal-row-label">Chorus:
-            <input type="text" class="chorus-time-input" data-modal-start="snow-white-song" placeholder="0:05" size="5">
+            <input type="text" class="chorus-time-input" data-modal-start="snow-white-song" placeholder="0:00" size="5">
             <span>to</span>
-            <input type="text" class="chorus-time-input" data-modal-end="snow-white-song" placeholder="0:30" size="5">
+            <input type="text" class="chorus-time-input" data-modal-end="snow-white-song" placeholder="0:20" size="5">
           </label>
         </div>
 
         <div class="modal-row">
           <span class="modal-row-name">Cinderella</span>
           <label class="modal-row-label">Chorus:
-            <input type="text" class="chorus-time-input" data-modal-start="cinderella-song" placeholder="0:05" size="5">
+            <input type="text" class="chorus-time-input" data-modal-start="cinderella-song" placeholder="0:25" size="5">
             <span>to</span>
-            <input type="text" class="chorus-time-input" data-modal-end="cinderella-song" placeholder="0:30" size="5">
+            <input type="text" class="chorus-time-input" data-modal-end="cinderella-song" placeholder="0:45" size="5">
           </label>
         </div>
 
         <div class="modal-row">
           <span class="modal-row-name">Belle</span>
           <label class="modal-row-label">Chorus:
-            <input type="text" class="chorus-time-input" data-modal-start="belle-song" placeholder="0:05" size="5">
+            <input type="text" class="chorus-time-input" data-modal-start="belle-song" placeholder="0:50" size="5">
             <span>to</span>
-            <input type="text" class="chorus-time-input" data-modal-end="belle-song" placeholder="0:30" size="5">
+            <input type="text" class="chorus-time-input" data-modal-end="belle-song" placeholder="1:15" size="5">
           </label>
         </div>
 
         <div class="modal-row">
           <span class="modal-row-name">Ariel</span>
           <label class="modal-row-label">Chorus:
-            <input type="text" class="chorus-time-input" data-modal-start="ariel-song" placeholder="0:05" size="5">
+            <input type="text" class="chorus-time-input" data-modal-start="ariel-song" placeholder="0:55" size="5">
             <span>to</span>
-            <input type="text" class="chorus-time-input" data-modal-end="ariel-song" placeholder="0:30" size="5">
+            <input type="text" class="chorus-time-input" data-modal-end="ariel-song" placeholder="1:15" size="5">
           </label>
         </div>
 
         <div class="modal-row">
           <span class="modal-row-name">Rapunzel</span>
           <label class="modal-row-label">Chorus:
-            <input type="text" class="chorus-time-input" data-modal-start="rapunzel-song" placeholder="0:05" size="5">
+            <input type="text" class="chorus-time-input" data-modal-start="rapunzel-song" placeholder="1:00" size="5">
             <span>to</span>
-            <input type="text" class="chorus-time-input" data-modal-end="rapunzel-song" placeholder="0:30" size="5">
+            <input type="text" class="chorus-time-input" data-modal-end="rapunzel-song" placeholder="1:25" size="5">
           </label>
         </div>
 
         <div class="modal-row">
           <span class="modal-row-name">Elsa</span>
           <label class="modal-row-label">Chorus:
-            <input type="text" class="chorus-time-input" data-modal-start="elsa-song" placeholder="0:05" size="5">
+            <input type="text" class="chorus-time-input" data-modal-start="elsa-song" placeholder="0:50" size="5">
             <span>to</span>
-            <input type="text" class="chorus-time-input" data-modal-end="elsa-song" placeholder="0:30" size="5">
+            <input type="text" class="chorus-time-input" data-modal-end="elsa-song" placeholder="1:20" size="5">
           </label>
         </div></div>
       <div class="modal-btn-row">
@@ -1099,6 +1119,61 @@ function parseTimeToSeconds(str) {
   return Number(str) || 0;
 }
 
+// ---------- Sequential clue unlock: Song -> Bonus -> Face, per princess ----------
+var SEQ_ORDER = ['song', 'bonus', 'face'];
+var seqState = {};
+function seqParse(slotId) {
+  var m = slotId.match(/-(song|bonus|face)$/);
+  if (!m) return null;
+  return { princess: slotId.slice(0, m.index), key: m[1] };
+}
+function seqGet(princess) {
+  if (!seqState[princess]) seqState[princess] = { found: {}, revealed: {} };
+  return seqState[princess];
+}
+function seqActiveKey(st) {
+  for (var i = 0; i < SEQ_ORDER.length; i++) {
+    var k = SEQ_ORDER[i];
+    if (st.found[k] && !st.revealed[k]) return k;
+  }
+  return null;
+}
+function seqMarkFound(slotId) {
+  var p = seqParse(slotId);
+  if (!p) return;
+  seqGet(p.princess).found[p.key] = true;
+  seqRefresh(p.princess);
+}
+function seqCanReveal(slotId) {
+  var p = seqParse(slotId);
+  if (!p) return true;
+  return seqActiveKey(seqGet(p.princess)) === p.key;
+}
+function seqMarkRevealed(slotId) {
+  var p = seqParse(slotId);
+  if (!p) return;
+  seqGet(p.princess).revealed[p.key] = true;
+  seqRefresh(p.princess);
+}
+function seqRefresh(princess) {
+  var st = seqGet(princess);
+  var activeKey = seqActiveKey(st);
+  SEQ_ORDER.forEach(function (k) {
+    if (!st.found[k] || st.revealed[k]) return;
+    var slotId = princess + '-' + k;
+    var lock = document.querySelector('[data-lock-overlay="' + slotId + '"]');
+    if (!lock) return;
+    var small = lock.querySelector('small');
+    if (k === activeKey) {
+      lock.classList.remove('seq-waiting');
+      if (small) small.textContent = 'Tap to reveal this clue';
+    } else {
+      lock.classList.add('seq-waiting');
+      if (small) small.textContent = 'Reveal the previous clue first';
+    }
+  });
+}
+
 // Try each extension in order for an <img>; once found, show a lock overlay (not the image itself)
 // so the class has to tap to reveal it as a guessing clue, rather than seeing it immediately.
 document.querySelectorAll('[data-media-img]').forEach(function (img) {
@@ -1117,14 +1192,17 @@ document.querySelectorAll('[data-media-img]').forEach(function (img) {
   img.addEventListener('load', function () {
     if (hint) hint.style.display = 'none';
     if (lockOverlay) lockOverlay.style.display = 'flex';
+    seqMarkFound(slotId);
   });
   tryNext();
 
   if (lockOverlay) {
     function reveal() {
       if (currentTool !== 'pointer') return;
+      if (!seqCanReveal(slotId)) return;
       img.style.display = 'block';
       lockOverlay.style.display = 'none';
+      seqMarkRevealed(slotId);
     }
     lockOverlay.addEventListener('click', reveal);
     lockOverlay.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') reveal(); });
@@ -1135,14 +1213,19 @@ document.querySelectorAll('[data-media-img]').forEach(function (img) {
 // Once found, show a lock overlay (not the controls) so it stays a real guessing clue.
 // Single global "currently playing" tracker so starting one song stops any other song playing anywhere in the deck.
 var globalActiveAudio = null;
+function setAllPauseButtonsDisabled() {
+  document.querySelectorAll('[data-pause]').forEach(function (btn) { btn.disabled = true; });
+}
 function stopAnyPlayingSong() {
   if (globalActiveAudio) { globalActiveAudio.pause(); globalActiveAudio = null; }
+  setAllPauseButtonsDisabled();
 }
 
 document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   var slotId = controls.getAttribute('data-audio-controls');
   var chorusBtn = controls.querySelector('[data-play-chorus]');
   var fullBtn = controls.querySelector('[data-play-full]');
+  var pauseBtn = controls.querySelector('[data-pause]');
   var base = chorusBtn.getAttribute('data-basepath');
   var exts = chorusBtn.getAttribute('data-exts').split(',');
   var missingHint = document.querySelector('[data-missing-hint="' + slotId + '"]');
@@ -1175,6 +1258,7 @@ document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
       resolvedUrl = candidate;
       if (missingHint) missingHint.style.display = 'none';
       if (lockOverlay) lockOverlay.style.display = 'flex';
+      seqMarkFound(slotId);
     }, { once: true });
     probe.src = candidate;
     probe.load();
@@ -1184,26 +1268,44 @@ document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   if (lockOverlay) {
     function reveal() {
       if (currentTool !== 'pointer') return;
+      if (!seqCanReveal(slotId)) return;
       if (mediaBox) mediaBox.style.display = 'none'; // collapse the now-empty locked box entirely
       controls.style.display = 'block';
+      seqMarkRevealed(slotId);
     }
     lockOverlay.addEventListener('click', reveal);
     lockOverlay.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') reveal(); });
   }
 
+  function startPlayback(a) {
+    stopAnyPlayingSong();
+    globalActiveAudio = a;
+    setAllPauseButtonsDisabled();
+    pauseBtn.disabled = false;
+    a.addEventListener('ended', function () {
+      if (globalActiveAudio === a) { globalActiveAudio = null; }
+      pauseBtn.disabled = true;
+    });
+    a.play();
+  }
+
+  pauseBtn.addEventListener('click', function () {
+    if (globalActiveAudio) { globalActiveAudio.pause(); }
+    pauseBtn.disabled = true;
+  });
+
   chorusBtn.addEventListener('click', function () {
     if (!resolvedUrl) return;
-    stopAnyPlayingSong();
     var startSec = parseTimeToSeconds(startInput.value || startInput.placeholder);
     var endSec = parseTimeToSeconds(endInput.value || endInput.placeholder);
     var a = new Audio(resolvedUrl);
-    globalActiveAudio = a;
     a.currentTime = startSec;
-    a.play();
+    startPlayback(a);
     if (endSec > startSec) {
       a.addEventListener('timeupdate', function stopAtEnd() {
         if (a.currentTime >= endSec) {
           a.pause();
+          pauseBtn.disabled = true;
           a.removeEventListener('timeupdate', stopAtEnd);
         }
       });
@@ -1211,10 +1313,8 @@ document.querySelectorAll('[data-audio-controls]').forEach(function (controls) {
   });
   fullBtn.addEventListener('click', function () {
     if (!resolvedUrl) return;
-    stopAnyPlayingSong();
     var a = new Audio(resolvedUrl);
-    globalActiveAudio = a;
-    a.play();
+    startPlayback(a);
   });
 });
 
