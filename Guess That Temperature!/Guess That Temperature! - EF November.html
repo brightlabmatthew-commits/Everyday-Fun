@@ -66,6 +66,11 @@
   .feedback-line{font-size:14px;font-weight:700;min-height:20px;text-align:center;}
   .feedback-line.show-correct{color:var(--green);}
   .feedback-line.show-incorrect{color:var(--fire);}
+  .follow-card{display:none;width:100%;background:#fff8e6;border:2px dashed #f5a623;border-radius:16px;padding:12px 18px;text-align:center;}
+  .follow-card.show{display:block;animation:followIn .4s ease;}
+  .follow-card .follow-tag{font-size:12px;letter-spacing:2px;font-weight:800;color:#d98200;margin-bottom:4px;}
+  .follow-card .follow-q{font-size:18px;font-weight:700;color:var(--navy);}
+  @keyframes followIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
   .next-q-btn{background:var(--ice);color:#fff;border:none;border-radius:20px;padding:9px 24px;font-size:14px;
       font-weight:800;cursor:pointer;display:none;}
   .next-q-btn.show{display:inline-block;}
@@ -147,7 +152,7 @@
     <ul class="bullets">
       <li>🌡️ <b>Step 1:</b> Look at the picture and read the question.</li>
       <li>👆 <b>Step 2:</b> Tap the temperature you think is correct.</li>
-      <li>✅ <b>Step 3:</b> See if you were right, then move to the next question.</li>
+      <li>✅ <b>Step 3:</b> See if you were right, answer the “Talk About It” question, then tap the ➡ arrow for the next one. Use ⬅ to go back.</li>
       <li>➕ <b>Step 4:</b> After 10 questions, try the Math Challenges using what you learned!</li>
     </ul>
   </section>
@@ -172,7 +177,7 @@
       <div class="progress-pill" id="progressPill">Question 1 of 10</div>
       <div class="q-card" id="qCard"></div>
       <div class="feedback-line" id="feedbackLine"></div>
-      <button class="next-q-btn" id="nextQBtn">Next Question ➡</button>
+      <div class="follow-card" id="followCard"><div class="follow-tag">💬 TALK ABOUT IT</div><div class="follow-q" id="followQ"></div></div>
     </div>
   </section>
 
@@ -239,16 +244,16 @@ IMG["swimming-pool"] = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDA
 <script>
 /* ===================== DATA ===================== */
 const TRIVIA = [
-  { img:'boiling-water', q:'How hot is boiling water?', choices:['50°C','100°C','150°C'], correct:1 },
-  { img:'ice', q:'What temperature is ice (frozen water)?', choices:['0°C','10°C','-10°C'], correct:0 },
-  { img:'body-temp', q:"What is a healthy person's normal body temperature?", choices:['25°C','37°C','50°C'], correct:1 },
-  { img:'hot-summer-day', q:'What is the temperature on a very hot summer day?', choices:['15°C','35°C','60°C'], correct:1 },
-  { img:'room-temp', q:'What is a comfortable room temperature indoors?', choices:['0°C','21°C','45°C'], correct:1 },
-  { img:'mount-everest', q:'About how cold is it at the top of Mount Everest?', choices:['0°C','-20°C','-100°C'], correct:1 },
-  { img:'fridge', q:'What temperature keeps food cold and fresh inside a refrigerator?', choices:['-20°C','4°C','25°C'], correct:1 },
-  { img:'desert', q:'What was the hottest temperature ever recorded on Earth?', choices:['35°C','57°C','90°C'], correct:1 },
-  { img:'the-sun', q:'About how hot is the surface of the Sun?', choices:['500°C','5,500°C','50,000°C'], correct:1 },
-  { img:'swimming-pool', q:"What's a comfortable temperature for a swimming pool?", choices:['5°C','27°C','60°C'], correct:1 }
+  { img:'boiling-water', q:'How hot is boiling water?', choices:['50°C','100°C','150°C'], correct:1, follow:"What food do you like that is cooked in boiling water, like noodles?" },
+  { img:'ice', q:'What temperature is ice (frozen water)?', choices:['0°C','10°C','-10°C'], correct:0, follow:"What do you like to eat or drink with ice?" },
+  { img:'body-temp', q:"What is a healthy person's normal body temperature?", choices:['25°C','37°C','50°C'], correct:1, follow:"What do you do when you feel sick or have a fever?" },
+  { img:'hot-summer-day', q:'What is the temperature on a very hot summer day?', choices:['15°C','35°C','60°C'], correct:1, follow:"What drink do you like when it’s hot?" },
+  { img:'room-temp', q:'What is a comfortable room temperature indoors?', choices:['0°C','21°C','45°C'], correct:1, follow:"Do you like your room warm or cool? Why?" },
+  { img:'mount-everest', q:'About how cold is it at the top of Mount Everest?', choices:['0°C','-20°C','-100°C'], correct:1, follow:"What would you wear if you went to a very cold place?" },
+  { img:'fridge', q:'What temperature keeps food cold and fresh inside a refrigerator?', choices:['-20°C','4°C','25°C'], correct:1, follow:"What is your favorite food or drink from the fridge?" },
+  { img:'desert', q:'What was the hottest temperature ever recorded on Earth?', choices:['35°C','57°C','90°C'], correct:1, follow:"What would you bring with you if you went to a very hot place?" },
+  { img:'the-sun', q:'About how hot is the surface of the Sun?', choices:['500°C','5,500°C','50,000°C'], correct:1, follow:"What do you wear to stay safe from the hot sun?" },
+  { img:'swimming-pool', q:"What's a comfortable temperature for a swimming pool?", choices:['5°C','27°C','60°C'], correct:1, follow:"What is your favorite thing to do at a swimming pool or beach?" }
 ];
 
 const MATH_CHALLENGES = [
@@ -271,17 +276,30 @@ function renderNav(){
 }
 function goTo(i){
   if(i<0||i>=slides.length) return;
+  const from=current;
   slides[current].classList.remove('active');
   current=i;
+  if(i===QUIZ_SLIDE && typeof renderItem==='function'){ itemIndex = (i>from) ? 0 : ALL_ITEMS.length-1; renderItem(); }
   slides[current].classList.add('active');
   renderNav();
   clearAnnotations();
 }
-document.getElementById('prevBtn').onclick=()=>goTo(current-1);
-document.getElementById('nextBtn').onclick=()=>goTo(current+1);
+const QUIZ_SLIDE = 3;
+function navNext(){
+  if(current===QUIZ_SLIDE && itemIndex < ALL_ITEMS.length-1){ itemIndex++; renderItem(); clearAnnotations(); return; }
+  goTo(current+1);
+}
+function navPrev(){
+  if(current===QUIZ_SLIDE && itemIndex > 0){ itemIndex--; renderItem(); clearAnnotations(); return; }
+  goTo(current-1);
+}
+document.getElementById('prevBtn').onclick=navPrev;
+document.getElementById('nextBtn').onclick=navNext;
 document.addEventListener('keydown', e=>{
-  if(e.key==='ArrowRight') goTo(current+1);
-  if(e.key==='ArrowLeft') goTo(current-1);
+  const t=e.target && e.target.tagName;
+  if(t==='TEXTAREA' || t==='INPUT') return;
+  if(e.key==='ArrowRight') navNext();
+  if(e.key==='ArrowLeft') navPrev();
 });
 renderNav();
 
@@ -307,7 +325,7 @@ tubeSpots.forEach((leftPct,i)=>{
 
 /* ===================== QUIZ ENGINE (shared by trivia + math challenges) ===================== */
 let itemIndex = 0;
-let score = 0;
+const answers = {};   // itemIndex -> chosen choice index (so going back shows the answered state)
 
 function renderItem(){
   const item = ALL_ITEMS[itemIndex];
@@ -316,7 +334,6 @@ function renderItem(){
   document.getElementById('quizTitle').textContent = isMath ? 'Math Challenges' : 'Guess That Temperature!';
 
   const totalTrivia = TRIVIA.length;
-  const totalAll = ALL_ITEMS.length;
   const posLabel = isMath
     ? ('Math Challenge '+(itemIndex-totalTrivia+1)+' of '+MATH_CHALLENGES.length)
     : ('Question '+(itemIndex+1)+' of '+totalTrivia);
@@ -334,7 +351,38 @@ function renderItem(){
 
   document.getElementById('feedbackLine').textContent = '';
   document.getElementById('feedbackLine').className = 'feedback-line';
-  document.getElementById('nextQBtn').classList.remove('show');
+  document.getElementById('followCard').classList.remove('show');
+  qCard.dataset.answered = 'false';
+
+  // returning to an already-answered question: restore its state (no confetti)
+  if(answers[itemIndex] !== undefined){
+    showAnswer(answers[itemIndex], false);
+  }
+}
+
+function showAnswer(chosenIdx, celebrate){
+  const card = document.getElementById('qCard');
+  const item = ALL_ITEMS[itemIndex];
+  card.dataset.answered = 'true';
+  const allBtns = card.querySelectorAll('.choice-btn');
+  allBtns.forEach(b=>b.classList.add('disabledChoice'));
+  const btn = allBtns[chosenIdx];
+  const feedback = document.getElementById('feedbackLine');
+  if(chosenIdx === item.correct){
+    btn.classList.add('correct');
+    feedback.textContent = 'Correct! 🎉';
+    feedback.className = 'feedback-line show-correct';
+    if(celebrate){ try{ confettiBurst(btn); }catch(err){ console.warn('confetti skipped', err); } }
+  } else {
+    btn.classList.add('incorrect');
+    allBtns[item.correct].classList.add('correct');
+    feedback.textContent = 'Not quite! The correct answer is highlighted.';
+    feedback.className = 'feedback-line show-incorrect';
+  }
+  if(item.follow){
+    document.getElementById('followQ').textContent = item.follow;
+    document.getElementById('followCard').classList.add('show');
+  }
 }
 
 document.getElementById('qCard').addEventListener('click', e=>{
@@ -342,40 +390,9 @@ document.getElementById('qCard').addEventListener('click', e=>{
   if(!btn) return;
   const card = document.getElementById('qCard');
   if(card.dataset.answered === 'true') return;
-  card.dataset.answered = 'true';
-
-  const item = ALL_ITEMS[itemIndex];
   const chosenIdx = parseInt(btn.dataset.idx, 10);
-  const allBtns = card.querySelectorAll('.choice-btn');
-  allBtns.forEach(b=>b.classList.add('disabledChoice'));
-
-  const feedback = document.getElementById('feedbackLine');
-  if(chosenIdx === item.correct){
-    btn.classList.add('correct');
-    feedback.textContent = 'Correct! 🎉';
-    feedback.className = 'feedback-line show-correct';
-    score++;
-    try{ confettiBurst(btn); }catch(err){ console.warn('confetti skipped', err); }
-  } else {
-    btn.classList.add('incorrect');
-    allBtns[item.correct].classList.add('correct');
-    feedback.textContent = 'Not quite! The correct answer is highlighted.';
-    feedback.className = 'feedback-line show-incorrect';
-  }
-  document.getElementById('nextQBtn').classList.add('show');
-});
-
-document.getElementById('nextQBtn').addEventListener('click', ()=>{
-  document.getElementById('qCard').dataset.answered = 'false';
-  if(itemIndex < ALL_ITEMS.length - 1){
-    itemIndex++;
-    renderItem();
-  } else {
-    document.getElementById('qCard').innerHTML =
-      '<div class="q-text">All done! You scored '+score+' out of '+ALL_ITEMS.length+'. 🌡️</div>';
-    document.getElementById('feedbackLine').textContent = '';
-    document.getElementById('nextQBtn').classList.remove('show');
-  }
+  answers[itemIndex] = chosenIdx;
+  showAnswer(chosenIdx, true);
 });
 
 function confettiBurst(anchorEl){
