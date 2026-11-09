@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spelling Showdown</title>
+<style>
+:root{--cream:#fffbea;--blue:#8ec5e8;--red:#e55353;--yel:#f7c948;--ink:#2b3a4a;--grn:#2e7d32;--chalk:#2f5d3a}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;font-family:"Varela Round","Nunito","Arial Rounded MT Bold","Trebuchet MS",Arial,sans-serif;color:var(--ink)}
+#deck{position:fixed;inset:0;background:var(--cream);perspective:1600px;overflow:hidden}
+#paper{position:absolute;inset:0;background:repeating-linear-gradient(transparent 0 38px,var(--blue) 38px 40px);opacity:.55}
+#paper::before{content:"";position:absolute;top:0;bottom:0;left:9%;width:3px;background:var(--red);opacity:.8}
+#shav{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.sh{position:absolute;top:-30px;width:18px;height:18px;border:3px solid var(--yel);border-color:var(--yel) transparent transparent var(--yel);border-radius:50%;animation:drift linear infinite}
+@keyframes drift{to{transform:translate(60px,110vh) rotate(540deg)}}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 90px 60px 13%;text-align:center;transform-origin:left center;transform:rotateY(-75deg) translateX(40%);opacity:0;pointer-events:none;transition:transform .6s ease,opacity .6s ease}
+.slide.active{transform:none;opacity:1;pointer-events:auto}
+.slide.past{transform:rotateY(70deg) translateX(-30%);opacity:0}
+h1{font-size:clamp(34px,6vw,70px);margin:.1em 0}h2{font-size:clamp(26px,4vw,46px);margin:.2em 0}
+.sub{font-size:clamp(18px,2.4vw,28px);margin:.3em 0 .8em;background:rgba(255,251,234,.9);padding:2px 14px;border-radius:12px}
+.card{background:#fff;border:3px solid var(--ink);border-radius:18px;padding:18px 28px;box-shadow:6px 6px 0 var(--yel);font-size:clamp(20px,2.8vw,32px);line-height:1.5;max-width:900px}
+.card li{text-align:left;margin:.3em 0}
+.logo{position:fixed;top:10px;left:10px;z-index:30;height:44px;min-width:90px;padding:0 12px;display:flex;align-items:center;background:var(--yel);border:3px solid var(--ink);border-radius:12px;font-weight:bold;letter-spacing:.5px}
+#pencils{width:min(380px,60vw);height:auto}
+.logoMid{position:absolute;background:var(--yel);border:4px solid var(--ink);border-radius:50%;width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;box-shadow:4px 4px 0 var(--red)}
+.pw{position:relative;display:flex;justify-content:center;align-items:center}
+.choices{display:grid;gap:12px;width:min(760px,100%)}
+.ch{font:inherit;font-size:clamp(22px,3.2vw,38px);padding:10px 20px;border:3px solid var(--ink);border-radius:16px;background:#fff;cursor:pointer;display:flex;gap:16px;align-items:center;text-align:left;transition:transform .15s}
+.ch:hover:not(:disabled){transform:translateX(6px);background:#fff6c9}.ch b{background:var(--yel);border-radius:50%;width:1.6em;height:1.6em;display:inline-flex;align-items:center;justify-content:center;font-size:.8em;flex:none}
+.ch.ok{background:var(--chalk);color:#fff;border-color:var(--chalk)}.ch.bad{background:var(--red);color:#fff;border-color:#a22}
+.ch:disabled{cursor:default}
+.q{font-size:clamp(20px,2.8vw,34px);margin:.2em 0}.say{font:inherit;border:3px solid var(--ink);background:var(--blue);border-radius:50%;width:46px;height:46px;cursor:pointer;font-size:22px;vertical-align:middle}
+.rev{position:relative;display:none;margin-top:12px;background:var(--chalk);color:#fff;border-radius:18px;padding:10px 26px;border:4px solid #8b6b3d;width:min(760px,100%)}
+.rev.show{display:block}.big{font-size:clamp(40px,6vw,76px);letter-spacing:3px;font-family:"Arial Rounded MT Bold","Varela Round",Arial,sans-serif;position:relative;display:inline-block}
+.big span{display:inline-block;opacity:0;transform:scale(2.4);animation:stamp .3s forwards}
+@keyframes stamp{to{opacity:1;transform:none}}
+.ul{height:6px;background:var(--yel);border-radius:4px;width:0;margin:0 auto;animation:ulw .6s forwards}@keyframes ulw{to{width:100%}}
+.syl{font-size:clamp(20px,2.6vw,32px);color:var(--yel)}.ex{font-size:clamp(16px,2vw,24px)}
+.star{position:absolute;font-size:28px;animation:pop 1s forwards;pointer-events:none}@keyframes pop{0%{transform:scale(0)}40%{transform:scale(1.5)}100%{transform:translateY(-40px) scale(.6);opacity:0}}
+.team{position:fixed;left:calc(13% + 10px);bottom:12px;display:flex;gap:10px;z-index:20}.team.hide{display:none}
+.tm{display:flex;align-items:center;gap:6px;border:3px solid var(--ink);border-radius:14px;padding:3px 8px;font-weight:bold;color:#fff}
+.tm.r{background:#d84343}.tm.b{background:#2f6fd1}.tm button{font:inherit;width:28px;height:28px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,.25);color:#fff;cursor:pointer}
+.sc{display:flex;gap:40px;margin-top:10px}.sb{border:4px solid var(--ink);border-radius:22px;padding:18px 36px;color:#fff;font-size:clamp(22px,3vw,36px)}.sb .n{font-size:clamp(60px,9vw,120px);line-height:1.1}.sb button{font:inherit;font-size:30px;width:56px;height:56px;border-radius:50%;border:3px solid #fff;background:rgba(255,255,255,.25);color:#fff;cursor:pointer;margin:0 6px}
+.rb{background:#d84343}.bb{background:#2f6fd1}
+.btn{font:inherit;font-size:24px;padding:10px 24px;border:3px solid var(--ink);border-radius:16px;background:var(--yel);cursor:pointer;margin-top:14px}
+#nav{position:fixed;bottom:12px;right:14px;z-index:40;display:flex;gap:10px;align-items:center}#nav button{font:inherit;font-size:26px;width:54px;height:54px;border-radius:50%;border:3px solid var(--ink);background:var(--yel);cursor:pointer}#nav button:disabled{opacity:.35;cursor:default}#cnt{font-size:16px;background:#fff;border-radius:10px;padding:2px 8px}
+#ov{position:fixed;inset:0;z-index:25;pointer-events:none;width:100%;height:100%}#ov.on{pointer-events:auto}#ov.on *{pointer-events:auto}
+#tb{position:fixed;top:10px;left:140px;z-index:35;display:flex;flex-direction:row;gap:5px;align-items:center;background:rgba(240,240,240,.95);border:2px solid #888;border-radius:12px;padding:4px 6px;overflow:hidden}
+#tb.col .tools{display:none}#tb button{font:inherit;font-size:16px;min-width:34px;height:34px;border:2px solid #999;border-radius:8px;background:#fff;color:#444;cursor:pointer}#tb button.act{background:#555;color:#fff}
+.tools{display:flex;gap:5px;align-items:center}.sw{width:22px!important;min-width:22px!important;height:22px!important;border-radius:50%!important;padding:0}
+#tp{position:fixed;z-index:50;display:none;background:#fff;border:2px solid #555;border-radius:10px;padding:8px;box-shadow:0 4px 14px #0005}#tp textarea{width:220px;height:70px;font:inherit}#tp button{margin:4px 4px 0 0}
+.qs{justify-content:flex-start;padding-top:72px;padding-bottom:84px}
+.qs .q{margin:0;font-size:clamp(18px,3.6vh,30px)}.qs .sub{margin:.3em 0 .5em;font-size:clamp(18px,3.8vh,30px)}
+.qs .choices{gap:1vh}.qs .ch{font-size:clamp(18px,4.2vh,34px);padding:.9vh 18px}
+.qs .rev{margin-top:1.2vh;padding:.6vh 22px}.qs .big{font-size:clamp(34px,8vh,70px);line-height:1.05}.qs .syl{font-size:clamp(18px,3.4vh,30px);line-height:1.1}.qs .ex{font-size:clamp(14px,2.8vh,22px)}
+</style></head><body>
+<div id="deck"><div id="paper"></div><div id="shav"></div><div id="slides"></div></div>
+<div class="logo" id="logo">BRIGHT LAB</div>
+<div id="tb"><div class="tools">
+<button data-t="ptr" class="act" title="Pointer">➤</button><button data-t="pen" title="Pen">✏️</button><button data-t="text" title="Text box">T</button><button data-t="erase" title="Eraser">🧽</button>
+<button data-t="rect" title="Rectangle">▭</button><button data-t="oval" title="Oval">◯</button><button data-t="arrow" title="Arrow">↗</button><button data-t="line" title="Line">╱</button>
+<button class="sw" data-c="#e53935" style="background:#e53935"></button><button class="sw" data-c="#1e66d0" style="background:#1e66d0"></button><button class="sw" data-c="#2e9e44" style="background:#2e9e44"></button><button class="sw" data-c="#f2b705" style="background:#f2b705"></button>
+<button id="clr" title="Clear this slide">Clear</button></div><button id="col" title="Hide toolbar">◀</button></div>
+<svg id="ov" xmlns="http://www.w3.org/2000/svg"></svg>
+<div id="tp"><textarea id="tx"></textarea><br><button id="tadd">Add</button><button id="tcan">Cancel</button><button id="tdel">Delete</button></div>
+<div class="team hide" id="team"><div class="tm r">Red <button data-k="0" data-d="-1">−</button><span id="s0">0</span><button data-k="0" data-d="1">+</button></div><div class="tm b">Blue <button data-k="1" data-d="-1">−</button><span id="s1">0</span><button data-k="1" data-d="1">+</button></div></div>
+<div id="nav"><button id="prev" aria-label="Previous">◀</button><span id="cnt"></span><button id="next" aria-label="Next">▶</button></div>
+<script>
+const WORDS=[["beautiful", "beau-ti-ful", "C", "The flower is beautiful.", ["Beauteeful", "Biutiful", "Beautiful", "Beautifull", "Beutiful"]], ["because", "be-cause", "A", "I wear boots because it is snowing.", ["because", "becuase", "becase", "becouse", "becaus"]], ["friend", "friend", "E", "She is my best friend.", ["freind", "frend", "friand", "frind", "friend"]], ["school", "school", "B", "We go to school by bus.", ["scool", "school", "schol", "skool", "shcool"]], ["favorite", "fa-vor-ite", "D", "Blue is my favorite color.", ["favrite", "faverite", "favorit", "favorite", "favoret"]], ["birthday", "birth-day", "A", "My birthday is in March.", ["birthday", "berthday", "birthdey", "brithday", "birdthday"]], ["Christmas", "Christ-mas", "D", "We sing songs at Christmas.", ["Chrismas", "Christmus", "Krismas", "Christmas", "Christimas"]], ["chocolate", "choc-o-late", "B", "I like hot chocolate.", ["choclate", "chocolate", "chocolat", "chocolete", "chocalate"]], ["different", "dif-fer-ent", "E", "A zebra is different from a horse.", ["diffrent", "diferent", "diffirent", "difrent", "different"]], ["elephant", "el-e-phant", "C", "The elephant is very big.", ["elefant", "elephent", "elephant", "eliphant", "elephan"]], ["library", "li-brar-y", "A", "I read books at the library.", ["library", "libary", "liberry", "librery", "lybrary"]], ["vegetable", "veg-e-ta-ble", "B", "Carrots are a vegetable.", ["vegtable", "vegetable", "vegetible", "vegitable", "vegatable"]], ["mountain", "moun-tain", "C", "We hiked up the mountain.", ["mountin", "mowntain", "mountain", "montain", "mounten"]], ["Wednesday", "Wednes-day", "D", "I have art class on Wednesday.", ["Wensday", "Wednsday", "Wedensday", "Wednesday", "Wendsday"]], ["restaurant", "res-tau-rant", "E", "We ate dinner at a restaurant.", ["resturant", "restarant", "restraunt", "restaurent", "restaurant"]]];
+const $=s=>document.querySelector(s),L="ABCDE",sc=[0,0];
+const slides=[];let cur=0;
+function add(cls,html){const s=document.createElement('section');s.className='slide '+cls;s.innerHTML=html;$('#slides').appendChild(s);slides.push(s);return s}
+const pencil=(c,rot)=>`<g transform="rotate(${rot} 190 90)"><rect x="30" y="76" width="300" height="28" rx="4" fill="${c}" stroke="#2b3a4a" stroke-width="4"/><polygon points="330,76 372,90 330,104" fill="#f1d3a0" stroke="#2b3a4a" stroke-width="4"/><polygon points="360,86 372,90 360,94" fill="#333"/><rect x="14" y="76" width="22" height="28" rx="4" fill="#f4a3a3" stroke="#2b3a4a" stroke-width="4"/></g>`;
+add('','<div class="pw"><svg id="pencils" viewBox="0 -50 380 280">'+pencil('#f7c948',28)+pencil('#f7c948',-28)+'</svg><div class="logoMid">BRIGHT LAB</div></div><h1>Spelling Showdown</h1><div class="sub">Pick the right spelling and win!</div>');
+add('','<h2>How to Play</h2><div class="sub">Four easy steps</div><ul class="card"><li>Listen to the word and read the sentence.</li><li>Read the 5 spellings.</li><li>Write the right one on your paper.</li><li>Show your paper!</li></ul>');
+add('','<h2>Get Ready!</h2><div class="sub">Materials</div><div class="card">✏️ Get your paper and pencil ready.</div>');
+WORDS.forEach((w,i)=>{const [word,syl,ans,sen,ch]=w,blank=sen.replace(new RegExp(word,'i'),'_____');
+ const s=add('qs',`<div class="q">Word ${i+1} of 15 <button class="say" title="Hear the word">🔊</button></div><div class="sub">${blank}</div><div class="choices">${ch.map((c,j)=>`<button class="ch" data-j="${j}"><b>${L[j]}</b>${c}</button>`).join('')}</div><div class="rev"><div class="big">${[...word].map((c,k)=>`<span style="animation-delay:${k*.12}s">${c}</span>`).join('')}</div><div class="ul"></div><div class="syl">${syl}</div><div class="ex">${sen}</div></div>`);
+ const rev=s.querySelector('.rev');
+ s.querySelector('.say').onclick=()=>{try{const u=new SpeechSynthesisUtterance(word);u.lang='en-US';speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}};
+ s.querySelectorAll('.ch').forEach(b=>b.onclick=()=>{const j=+b.dataset.j,a=L.indexOf(ans);s.querySelectorAll('.ch').forEach(x=>x.disabled=true);
+  s.querySelectorAll('.ch')[a].classList.add('ok');if(j!==a)b.classList.add('bad');
+  rev.classList.add('show');if(j===a)for(let k=0;k<6;k++){const st=document.createElement('div');st.className='star';st.textContent='⭐';st.style.left=(8+k*16)+'%';st.style.top=(10+(k%2)*60)+'%';st.style.animationDelay=(k*.1)+'s';rev.appendChild(st)}});
+ s.dataset.q=1});
+add('','<h2>Sky Writing Showdown!</h2><div class="sub">Challenge</div><div class="card"><ul style="margin:0;padding-left:1em"><li>The teacher says a word from the lesson.</li><li>Write it in the air with your finger.</li><li>Spell it out loud as you write!</li></ul></div><button class="btn" id="rnd">Pick a word</button><div class="big" id="rw" style="font-size:56px;margin-top:10px"></div>');
+add('sbs','<h2>Final Scoreboard</h2><div class="sub">Which team spelled best?</div><div class="sc"><div class="sb rb">Team Red<div class="n" id="f0">0</div><button data-k="0" data-d="-1">−</button><button data-k="0" data-d="1">+</button></div><div class="sb bb">Team Blue<div class="n" id="f1">0</div><button data-k="1" data-d="-1">−</button><button data-k="1" data-d="1">+</button></div></div>');
+add('','<h1>Thank You!</h1><div class="sub">Great spelling today, everyone!</div><div class="card">⭐ Keep practicing your words! ⭐</div>');
+$('#rnd').onclick=()=>{$('#rw').textContent=WORDS[Math.floor(Math.random()*15)][0]};
+function upd(){[0,1].forEach(k=>{$('#s'+k).textContent=sc[k];$('#f'+k).textContent=sc[k]})}
+document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{sc[+b.dataset.k]=Math.max(0,sc[+b.dataset.k]+ +b.dataset.d);upd()});
+for(let i=0;i<14;i++){const d=document.createElement('i');d.className='sh';d.style.left=(Math.random()*100)+'%';d.style.animationDuration=(14+Math.random()*14)+'s';d.style.animationDelay=(-Math.random()*20)+'s';$('#shav').appendChild(d)}
+function go(n){if(n<0||n>=slides.length)return;cur=n;slides.forEach((s,i)=>s.className=s.className.replace(/ ?(active|past)/g,'')+(i===n?' active':i<n?' past':''));
+ $('#prev').disabled=n===0;$('#next').disabled=n===slides.length-1;$('#cnt').textContent=(n+1)+' / '+slides.length;
+ $('#team').classList.toggle('hide',!(slides[n].dataset.q));$('#ov').innerHTML='';closeTp()}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+addEventListener('keydown',e=>{if(e.target.tagName==='TEXTAREA')return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+/* annotation */
+let tool='ptr',color='#e53935',el=null,sx=0,sy=0,editing=null,tpos=null;const ov=$('#ov'),NS='http://www.w3.org/2000/svg';
+const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);ov.appendChild(e);return e};
+function setTool(t){tool=(tool===t&&t!=='ptr')?'ptr':t;document.querySelectorAll('#tb [data-t]').forEach(b=>b.classList.toggle('act',b.dataset.t===tool));ov.classList.toggle('on',tool!=='ptr');ov.style.cursor=tool==='ptr'?'':'crosshair';closeTp()}
+document.querySelectorAll('#tb [data-t]').forEach(b=>b.onclick=()=>setTool(b.dataset.t));
+document.querySelectorAll('#tb [data-c]').forEach(b=>b.onclick=()=>color=b.dataset.c);
+$('#clr').onclick=()=>{ov.innerHTML='';closeTp()};
+$('#col').onclick=()=>{const c=$('#tb').classList.toggle('col');setTool('ptr');$('#col').textContent=c?'▶':'◀'};
+function closeTp(){$('#tp').style.display='none';editing=null}
+function erase(e){const t=document.elementFromPoint(e.clientX,e.clientY);if(t&&t!==ov&&ov.contains(t))t.remove()}
+function shape(x,y){const a={stroke:color,'stroke-width':4,fill:'none','stroke-linecap':'round'};
+ if(tool==='rect')el.setAttribute('d',`M${sx} ${sy}H${x}V${y}H${sx}Z`);
+ else if(tool==='oval'){el.setAttribute('cx',(sx+x)/2);el.setAttribute('cy',(sy+y)/2);el.setAttribute('rx',Math.abs(x-sx)/2);el.setAttribute('ry',Math.abs(y-sy)/2)}
+ else if(tool==='line')el.setAttribute('d',`M${sx} ${sy}L${x} ${y}`);
+ else{const an=Math.atan2(y-sy,x-sx),h=20;el.setAttribute('d',`M${sx} ${sy}L${x} ${y}M${x} ${y}L${x-h*Math.cos(an-.5)} ${y-h*Math.sin(an-.5)}M${x} ${y}L${x-h*Math.cos(an+.5)} ${y-h*Math.sin(an+.5)}`)}}
+ov.addEventListener('pointerdown',e=>{if(tool==='ptr')return;const x=e.clientX,y=e.clientY;
+ if(tool==='erase'){el=1;erase(e);return}
+ if(tool==='text'){const t=e.target.closest('text');if(t){editing=t;tpos=null;$('#tx').value=t.dataset.v}else{editing=null;tpos={x,y};$('#tx').value=''}
+  const p=$('#tp');p.style.display='block';p.style.left=Math.min(x,innerWidth-270)+'px';p.style.top=Math.min(y,innerHeight-160)+'px';$('#tdel').style.display=editing?'inline-block':'none';$('#tx').focus();return}
+ sx=x;sy=y;ov.setPointerCapture(e.pointerId);
+ const st={stroke:color,'stroke-width':4,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'};
+ el=tool==='pen'?mk('path',{...st,d:`M${x} ${y}`}):tool==='oval'?mk('ellipse',st):mk('path',st)});
+ov.addEventListener('pointermove',e=>{if(!el)return;if(tool==='erase')erase(e);else if(tool==='pen')el.setAttribute('d',el.getAttribute('d')+`L${e.clientX} ${e.clientY}`);else if(el!==1)shape(e.clientX,e.clientY)});
+addEventListener('pointerup',()=>{el=null});
+function saveText(){const v=$('#tx').value.trim();if(editing){if(v){editing.dataset.v=v;fill(editing,v)}else editing.remove()}else if(v&&tpos){const t=mk('text',{x:tpos.x,y:tpos.y,fill:color,'font-size':30,'font-weight':'bold'});t.dataset.v=v;fill(t,v)}closeTp()}
+function fill(t,v){t.textContent='';v.split('\n').forEach((ln,i)=>{const s=document.createElementNS(NS,'tspan');s.setAttribute('x',t.getAttribute('x'));s.setAttribute('dy',i?'1.2em':'0');s.textContent=ln;t.appendChild(s)})}
+$('#tadd').onclick=saveText;$('#tcan').onclick=closeTp;$('#tdel').onclick=()=>{if(editing)editing.remove();closeTp()};
+$('#tx').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();saveText()}if(e.key==='Escape')closeTp()});
+go(0);
+</script></body></html>
